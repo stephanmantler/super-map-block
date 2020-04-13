@@ -93,7 +93,8 @@ class stepman_geo_post {
   }
   
 	public function add_meta_boxes() {
-  	add_meta_box( 'local_meta', 'Location', array( $this, 'meta_callback' ), 'post', 'side' );
+  	// any post type, really.
+  	add_meta_box( 'local_meta', 'Location', array( $this, 'meta_callback' ), get_post_types(), 'side' );
 	}
 	
 	public function meta_callback( $post ) {
