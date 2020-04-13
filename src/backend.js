@@ -50,16 +50,16 @@ console.log("-- loading admin js --");
       id: 'mapbox/streets-v11',
       tileSize: 512,
       zoomOffset: -1,
-      accessToken: 'MAPBOX_ACCESS_TOKEN'
+      accessToken: '<YOUR_ACCESS_TOKEN>'
     }).addTo(map);
     
-    var drawLayers = [];
+    var itemCache = [];
     
      // FeatureGroup is to store editable layers
-    var drawnItems = new L.FeatureGroup();
-    drawnItems.addTo(map);
+    var itemsGroup = new L.FeatureGroup();
+    itemsGroup.addTo(map);
     
-    // populate drawnItems with existing data
+    // populate itemsGroup with existing data
     try {
       var load = $("#stepman_post_geojson").val();
       var meta = JSON.parse(load);
@@ -72,8 +72,8 @@ console.log("-- loading admin js --");
         } else if (layer.type == 'polygon') {
           newLayer = L.polygon(layer.points); 
         }
-        drawnItems.addLayer(newLayer);
-        drawLayers[drawnItems.getLayerId(newLayer)] = { type: layer.type, layer: newLayer };
+        itemsGroup.addLayer(newLayer);
+        itemCache[itemsGroup.getLayerId(newLayer)] = { type: layer.type, layer: newLayer };
       });
     } catch(e) {
       // fail silent
@@ -82,7 +82,7 @@ console.log("-- loading admin js --");
     // initialize and customize control
     var drawControl = new L.Control.Draw({
       edit: {
-        featureGroup: drawnItems
+        featureGroup: itemsGroup
       }
     });
     map.addControl(drawControl); 
@@ -94,8 +94,8 @@ console.log("-- loading admin js --");
     var saveLayers = function() {
       var out = [];
       console.log("= begin save =");
-      drawLayers.forEach( function (l) {
-        console.log(drawnItems.getLayerId(l.layer), l.type, l.layer);
+      itemCache.forEach( function (l) {
+        console.log(itemsGroup.getLayerId(l.layer), l.type, l.layer);
         if(l.type == 'circle') {
           out.push({ type: l.type, point: l.layer.getLatLng(), radius: l.layer.getRadius()});
         } else if (l.type == 'marker') {
@@ -111,9 +111,9 @@ console.log("-- loading admin js --");
      
     map.on(L.Draw.Event.CREATED, function (event) {
       const layer = event.layer;
-      drawnItems.addLayer(layer);
+      itemsGroup.addLayer(layer);
 
-      drawLayers[drawnItems.getLayerId(layer)] = { type: event.layerType, layer: layer };
+      itemCache[itemsGroup.getLayerId(layer)] = { type: event.layerType, layer: layer };
       console.log("+ ", event.layerType);
       console.log("  ", event.layer);
       saveLayers();
@@ -121,16 +121,16 @@ console.log("-- loading admin js --");
     map.on(L.Draw.Event.EDITED, function (event) {
       const layers = event.layers;
       layers.eachLayer(function(layer) {
-        console.log("EDIT: ", drawnItems.getLayerId(layer));
+        console.log("EDIT: ", itemsGroup.getLayerId(layer));
       })
       saveLayers();
     });
     map.on(L.Draw.Event.DELETED, function (event) {
       const layers = event.layers;
       layers.eachLayer(function (layer) {
-        console.log("DELETE: ", drawnItems.getLayerId(layer));
-        delete drawLayers[drawnItems.getLayerId(layer)];
-        drawnItems.removeLayer(layer);
+        console.log("DELETE: ", itemsGroup.getLayerId(layer));
+        delete itemCache[itemsGroup.getLayerId(layer)];
+        itemsGroup.removeLayer(layer);
       });
       saveLayers();
     }); 
