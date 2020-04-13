@@ -1,0 +1,28 @@
+{
+  "name": "stepman-geo-post",
+  "version": "1.0.0",
+  "description": "Geotag any Wordpress post or page",
+  "main": "build/backend.js",
+  "scripts": {
+    "build": "wp-scripts build --output-path=build/ --display-modules",
+    "start": "wp-scripts start --output-path=build/ --display-modules"
+  },
+  "author": "step",
+  "license": "GPL-3.0-or-later",
+  "devDependencies": {
+    "@wordpress/scripts": "7.2.0",
+    "css-loader": "^3.5.2",
+    "file-loader": "^6.0.0",
+    "ignore-emit-webpack-plugin": "^2.0.2",
+    "mini-css-extract-plugin": "^0.9.0",
+    "node-sass": "^4.13.1",
+    "postcss-loader": "^3.0.0",
+    "postcss-preset-env": "^6.7.0",
+    "resolve-url-loader": "^3.1.1",
+    "sass-loader": "^8.0.2"
+  },
+  "dependencies": {
+    "leaflet": "^1.6.0",
+    "leaflet-draw": "^1.0.4"
+  }
+}

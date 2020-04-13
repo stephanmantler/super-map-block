@@ -1,0 +1,68 @@
+@import "~leaflet";
+@import "~leaflet-draw";
+
+/* phpcs:ignore */
+
+#local-map {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  vertical-align: middle;
+/*  width: 80%;
+  height: 400px; */
+  padding: 4em;
+  background-color: #a4d3ff;
+  border: 2px solid #ddd;
+}
+
+
+ul.local-tabs-list {
+  width: 100%;
+  padding-left: 0;
+  margin: 0px;
+  margin-bottom: 0px !important;
+}
+
+.local-tab {
+  display: inline-block;
+  border: 1px solid #ddd;
+  border-bottom: 1px solid black;
+  min-width: 10%;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  margin-bottom: -2px !important;
+  background-color: #a4d3ff;
+}
+
+.local-carousel-container {
+  border: 1px solid black;
+  padding: 5px;
+  background-color: #a4d3ff;
+}
+
+.local_filter_column {
+  width: 50%;
+  display: inline-block;
+  float: left;
+}
+
+div.pf_filter_item label {
+  border: 2px solid black;
+  border-radius: 2em;
+  padding-left: 1em;
+  padding-right: 1em;
+  background-color: #a4d3ff;
+}
+
+input.pf_filter_chk {
+  visibility: hidden;
+  max-width: 0;
+}
+
+div.pf_filter_item {
+  margin-bottom: 5px !important;
+}
+
