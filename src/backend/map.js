@@ -50,7 +50,7 @@ console.log("-- loading admin js --");
       id: 'mapbox/streets-v11',
       tileSize: 512,
       zoomOffset: -1,
-      accessToken: 'MAPBOX_ACCESS_TOKEN'
+      accessToken: 'MAPBOX_TOKEN'
     }).addTo(map);
     
     var itemCache = [];
