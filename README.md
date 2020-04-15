@@ -3,9 +3,11 @@ A wordpress plugin to provide geolocation to posts &amp; pages. There are of cou
 
 ## Getting Started
 
-This repository only contains the raw sources and requires a development environment to build the actual plugin. In addition to the source code, this plugin currently requires a [Mapbox access token](https://docs.mapbox.com/help/how-mapbox-works/access-tokens/). Get this before you run the build process and paste it into `src/backend/components/index.js` (this will soon be replaced by a proper plugin configuration page in Wordpress).
+This repository only contains the raw sources and requires a development environment to build the actual plugin. In addition to the source code, this plugin currently requires a [Mapbox access token](https://docs.mapbox.com/help/how-mapbox-works/access-tokens/).
 
-Next, run `nppm install && npm run build` to build the actual plugin.
+Run `nppm install && npm run build` to build the actual plugin.
+
+Then, go to the Dashboard and under Plugins->stepman paste your access token.
 
 ## License
 
