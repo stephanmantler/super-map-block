@@ -87,11 +87,21 @@ class stepman_geo_post {
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 10, 1 );
 
     // add meta info		
+    add_action( 'init', array( $this, 'register_meta_fields' ) );
+    
+    /* deprecated */
+    /*
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
 		add_action( 'save_post', array( $this, 'save_post' ) );
-		
+		*/
   }
   
+  public function register_meta_fields() {
+    register_post_meta('', 'stepman_post_geojson', array('show_in_rest' => true, 'single' => true, 'type' => 'string'));
+  }
+  
+  /* deprecated */
+  /*
 	public function add_meta_boxes() {
   	// any post type, really.
   	add_meta_box( 'local_meta', 'Location', array( $this, 'meta_callback' ), get_post_types(), 'side' );
@@ -129,7 +139,7 @@ class stepman_geo_post {
         error_log('local_portfolio_meta_save: no meta data to save.');
     }
  	}
-  
+  */
   
   function enqueue_styles() {
     
