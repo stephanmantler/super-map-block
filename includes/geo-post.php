@@ -113,7 +113,7 @@ class stepman_geo_post {
 		  $asset_file['dependencies'],
       $asset_file['version']);
 
-		wp_localize_script( 'stepman_backend_scripts', 'mapbox_access_token', get_option('mapbox_access_token', 'not-available'));
+		wp_localize_script( 'stepman_backend_scripts', 'mapbox_access_token', get_option('stepman_mapbox_access_token', 'not-available'));
     wp_enqueue_script('stepman_backend_scripts');
   }
 
@@ -124,7 +124,7 @@ class stepman_geo_post {
   ***/
   function admin_init()
   {
-    register_setting('stepman', 'mapbox_access_token', array( 'type' => 'string'));
+    register_setting('stepman', 'stepman_mapbox_access_token', array( 'type' => 'string'));
 
     add_settings_section('stepman_settings_section_mapbox','Mapbox Integration', array( $this, 'settings_section_mapbox'), 'stepman');
 
@@ -139,10 +139,10 @@ class stepman_geo_post {
 
   function settings_field_mapbox() {
     // get the value of the setting we've registered with register_setting()
-    $setting = get_option('mapbox_access_token');
+    $setting = get_option('stepman_mapbox_access_token');
     // output the field
     ?>
-    <input type="text" name="mapbox_access_token" placeholder="paste your accees token here" style="font-family:monospace;" size="90" value="<?php echo isset( $setting ) ? esc_attr( $setting ) : ''; ?>">
+    <input type="text" name="stepman_mapbox_access_token" placeholder="paste your accees token here" style="font-family:monospace;" size="90" value="<?php echo isset( $setting ) ? esc_attr( $setting ) : ''; ?>">
     <?php
   }
 
