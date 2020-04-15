@@ -1,6 +1,6 @@
 import { registerPlugin } from '@wordpress/plugins';
 import { PluginSidebar, PluginSidebarMoreMenuItem } from '@wordpress/edit-post';
-import { PanelBody, TextControl } from '@wordpress/components';
+import { PanelBody, PanelRow, TextControl } from '@wordpress/components';
 import { withSelect, withDispatch } from '@wordpress/data';
 import { Component } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
@@ -10,9 +10,7 @@ let PluginMetaFields = (props) => {
   return (
     <>
     <PanelBody
-      title="Geolocation"
-      icon="admin-post"
-      initialOpen={ true }
+      opened={ true }
     >
       <MapComponent
         layers={props.metaFieldValue}
@@ -56,7 +54,7 @@ registerPlugin( 'stepman-geo-location', {
         </PluginSidebarMoreMenuItem>
         <PluginSidebar
           name='stepman-geo-location'
-          icon='admin-post'
+          icon='admin-site-alt3'
           title='Geolocation'
         >
           <PluginMetaFields />
