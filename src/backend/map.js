@@ -115,7 +115,6 @@ console.log("-- loading admin js --");
       });
       console.log("= end save =");
       $("#stepman_post_geojson").val(JSON.stringify(out));
-
     }
      
     map.on(L.Draw.Event.CREATED, function (event) {

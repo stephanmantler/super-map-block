@@ -120,8 +120,7 @@ export class MapComponent extends Component {
         }
       });
       console.log("= end save =");
-      self.props.layers = JSON.stringify(out);
-
+      self.props.onChange(JSON.stringify(out));
     }
      
     map.on(L.Draw.Event.CREATED, function (event) {
