@@ -21,17 +21,17 @@ L.Icon.Default.mergeOptions({
 
 
 export class MapComponent extends Component {
-    
+
   constructor(props) {
     super(...arguments);
     this.props = props;
     var self = this;
-    
+
     this.bindContainer = function(container) {
       self.container = container
     }
   }
-  
+
   render() {
     return (
       <div
@@ -42,43 +42,43 @@ export class MapComponent extends Component {
       </div>
       );
   }
-  
+
   componentDidMount() {
     const mapConfig = {
       zoomControl: false
-    };    
+    };
 
     var map = L.map(this.container, mapConfig).setView([51.505, -0.09], 13);
-    
+
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
       attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
       maxZoom: 18,
       id: 'mapbox/streets-v11',
       tileSize: 512,
       zoomOffset: -1,
-      accessToken: 'MAPBOX_ACCESS_TOKEN'
+      accessToken: mapbox_access_token
     }).addTo(map);
-    
+
     var itemCache = [];
-    
+
      // FeatureGroup is to store editable layers
     var itemsGroup = new L.FeatureGroup();
     itemsGroup.addTo(map);
-    
+
     var self = this;
-    
+
     // populate itemsGroup with existing data
     try {
       var meta = JSON.parse(self.props.layers);
       var haveLayers = false;
-      meta.forEach(function(layer) { 
-        var newLayer;      
+      meta.forEach(function(layer) {
+        var newLayer;
           if(layer.type == 'circle') {
-          newLayer = L.circle(layer.point, { radius: layer.radius});  
+          newLayer = L.circle(layer.point, { radius: layer.radius});
         } else if(layer.type == 'marker') {
           newLayer = L.marker(layer.point);
         } else if (layer.type == 'polygon') {
-          newLayer = L.polygon(layer.points); 
+          newLayer = L.polygon(layer.points);
         } else {
           // protect against unknown layers
           return;
@@ -93,19 +93,19 @@ export class MapComponent extends Component {
     } catch(e) {
       // fail silent
     }
-    
+
     // initialize and customize control
     var drawControl = new L.Control.Draw({
       edit: {
         featureGroup: itemsGroup
       }
     });
-    map.addControl(drawControl); 
-    
+    map.addControl(drawControl);
+
     jQuery(".leaflet-draw-draw-polyline").hide();
     jQuery(".leaflet-draw-draw-rectangle").hide();
     jQuery(".leaflet-draw-draw-circlemarker").hide();
-    
+
     var saveLayers = function() {
       var out = [];
       console.log("= begin save =");
@@ -122,7 +122,7 @@ export class MapComponent extends Component {
       console.log("= end save =");
       self.props.onChange(JSON.stringify(out));
     }
-     
+
     map.on(L.Draw.Event.CREATED, function (event) {
       const layer = event.layer;
       itemsGroup.addLayer(layer);
@@ -147,7 +147,7 @@ export class MapComponent extends Component {
         itemsGroup.removeLayer(layer);
       });
       saveLayers();
-    }); 
-    
+    });
+
   }
 }
