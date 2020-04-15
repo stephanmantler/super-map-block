@@ -87,66 +87,11 @@ class stepman_geo_post {
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 10, 1 );
 
     // add meta info		
-    add_action( 'init', array( $this, 'register_meta_fields' ) );
-    
-    /* deprecated */
-    /*
-		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
-		add_action( 'save_post', array( $this, 'save_post' ) );
-		*/
+    add_action( 'init', array( $this, 'register_meta_fields' ) );    
   }
   
   public function register_meta_fields() {
     register_post_meta('', 'stepman_meta_geolocation', array('show_in_rest' => true, 'single' => true, 'type' => 'string'));
-  }
-  
-  /* deprecated */
-  /*
-	public function add_meta_boxes() {
-  	// any post type, really.
-  	add_meta_box( 'local_meta', 'Location', array( $this, 'meta_callback' ), get_post_types(), 'side' );
-	}
-	
-	public function meta_callback( $post ) {
-  	echo 'Draw shapes in map.';
-  	echo '<div id="local_meta_map_field" style="width:100%; height: 200px;"></div>';
-    wp_nonce_field( basename( __FILE__ ), 'local_nonce' );
-    $local_stored_meta = get_post_meta( $post->ID );
-    
-    ?>
-    <p><label for="stepman_post_geojson" class="local-row-title">GeoJSON shape</label>
-        <input type="text" name="stepman_post_geojson" id="stepman_post_geojson" value="<?php if ( isset ( $local_stored_meta['stepman_post_geojson'] ) ) echo esc_attr($local_stored_meta['stepman_post_geojson'][0]); ?>" />
-    </p><?php
-	}
-	
-	public function save_post( $post_id ) {
-    // Checks save status
-    $is_autosave = wp_is_post_autosave( $post_id );
-    $is_revision = wp_is_post_revision( $post_id );
-    $is_valid_nonce = ( isset( $_POST[ 'local_nonce' ] ) && wp_verify_nonce( $_POST[ 'local_nonce' ], basename( __FILE__ ) ) ) ? 'true' : 'false';
- 
-    // Exits script depending on save status
-    if ( $is_autosave || $is_revision || !$is_valid_nonce ) {
-        error_log('local_portfolio_meta_save: saving not allowed');
-        return;
-    }
- 
-    // Checks for input and sanitizes/saves if needed
-    if( isset( $_POST[ 'stepman_post_geojson' ] ) ) {
-        error_log('local_portfolio_meta_save: saving meta ' . $_POST[ 'stepman_post_geojson' ]);
-        update_post_meta( $post_id, 'stepman_post_geojson', sanitize_text_field( $_POST[ 'stepman_post_geojson' ] ) );
-    } else {
-        error_log('local_portfolio_meta_save: no meta data to save.');
-    }
- 	}
-  */
-  
-  function enqueue_styles() {
-    
-  }
-  
-  function enqueue_scripts() {
-    
   }
   
   function admin_enqueue_scripts() {
