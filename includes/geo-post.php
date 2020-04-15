@@ -97,7 +97,7 @@ class stepman_geo_post {
   }
   
   public function register_meta_fields() {
-    register_post_meta('', 'stepman_post_geojson', array('show_in_rest' => true, 'single' => true, 'type' => 'string'));
+    register_post_meta('', 'stepman_meta_geolocation', array('show_in_rest' => true, 'single' => true, 'type' => 'string'));
   }
   
   /* deprecated */

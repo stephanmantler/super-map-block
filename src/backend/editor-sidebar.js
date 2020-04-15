@@ -19,7 +19,7 @@ let PluginMetaFields = (props) => {
         onChange={(value) => props.setMetaFieldValue(value)}
       />
       <TextControl
-        label="Geolocation"
+        label="Location data (for debugging)"
         value={props.metaFieldValue}
         onChange={(value) => props.setMetaFieldValue(value)}
       />
@@ -31,7 +31,7 @@ let PluginMetaFields = (props) => {
 PluginMetaFields = withSelect(
   (select) => {
     return {
-      metaFieldValue: select('core/editor').getEditedPostAttribute('meta')['stepman_post_geojson']
+      metaFieldValue: select('core/editor').getEditedPostAttribute('meta')['stepman_meta_geolocation']
     }
   }
 )(PluginMetaFields);
@@ -40,7 +40,7 @@ PluginMetaFields = withDispatch(
   (dispatch) => {
     return {
       setMetaFieldValue: (value) =>{
-        dispatch('core/editor').editPost({meta: { stepman_post_geojson: value }})
+        dispatch('core/editor').editPost({meta: { stepman_meta_geolocation: value }})
       }
     }
   }
