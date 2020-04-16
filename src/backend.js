@@ -2,4 +2,4 @@
 
 import { MapSidebar } from './backend/editor-sidebar';
 
-MapSidebar.register( stepmanMapboxAccessToken );
+MapSidebar.register( window.stepmanMapboxAccessToken );
