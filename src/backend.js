@@ -1,5 +1,5 @@
 'use strict';
 
-import { MapSidebar } from  './backend/editor-sidebar' ;
+import { MapSidebar } from './backend/editor-sidebar';
 
-MapSidebar.register(stepmanMapboxAccessToken);
+MapSidebar.register( stepmanMapboxAccessToken );

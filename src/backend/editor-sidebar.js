@@ -8,7 +8,6 @@ import { withSelect, withDispatch } from '@wordpress/data';
 //import { __ } from '@wordpress/i18n';
 import { MapComponent } from './components';
 
-
 let PluginMetaFields = ( props ) => {
 	return (
 		<>
@@ -45,9 +44,8 @@ PluginMetaFields = withDispatch( ( dispatch ) => {
 	};
 } )( PluginMetaFields );
 
-let MapSidebar = {
-	
-	register: (accessToken) => { 
+const MapSidebar = {
+	register: ( accessToken ) => {
 		registerPlugin( 'stepman-geo-location', {
 			render() {
 				return (
@@ -63,14 +61,13 @@ let MapSidebar = {
 							icon="admin-site-alt3"
 							title="Geolocation"
 						>
-							<PluginMetaFields 
-							accessToken={accessToken}/>
+							<PluginMetaFields accessToken={ accessToken } />
 						</PluginSidebar>
 					</>
 				);
 			},
 		} );
-	}
+	},
 };
 
 export { MapSidebar };
