@@ -63,7 +63,7 @@ export class MapComponent extends Component {
 				id: 'mapbox/streets-v11',
 				tileSize: 512,
 				zoomOffset: -1,
-				accessToken: mapbox_access_token,
+				accessToken: this.props.accessToken,
 			}
 		).addTo( map );
 
@@ -117,13 +117,8 @@ export class MapComponent extends Component {
 
 		const saveLayers = function() {
 			const out = [];
-			console.log( '= begin save =' );
+
 			itemCache.forEach( function( l ) {
-				console.log(
-					itemsGroup.getLayerId( l.layer ),
-					l.type,
-					l.layer
-				);
 				if ( l.type === 'circle' ) {
 					out.push( {
 						type: l.type,
@@ -136,7 +131,6 @@ export class MapComponent extends Component {
 					out.push( { type: l.type, points: l.layer.getLatLngs() } );
 				}
 			} );
-			console.log( '= end save =' );
 			self.props.onChange( JSON.stringify( out ) );
 		};
 
@@ -148,21 +142,14 @@ export class MapComponent extends Component {
 				type: event.layerType,
 				layer,
 			};
-			console.log( '+ ', event.layerType );
-			console.log( '	 ', event.layer );
 			saveLayers();
 		} );
-		map.on( L.Draw.Event.EDITED, function( event ) {
-			const layers = event.layers;
-			layers.eachLayer( function( layer ) {
-				console.log( 'EDIT: ', itemsGroup.getLayerId( layer ) );
-			} );
+		map.on( L.Draw.Event.EDITED, function() {
 			saveLayers();
 		} );
 		map.on( L.Draw.Event.DELETED, function( event ) {
 			const layers = event.layers;
 			layers.eachLayer( function( layer ) {
-				console.log( 'DELETE: ', itemsGroup.getLayerId( layer ) );
 				delete itemCache[ itemsGroup.getLayerId( layer ) ];
 				itemsGroup.removeLayer( layer );
 			} );

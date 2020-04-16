@@ -113,7 +113,7 @@ class stepman_geo_post {
 		  $asset_file['dependencies'],
       $asset_file['version']);
 
-		wp_localize_script( 'stepman_backend_scripts', 'mapbox_access_token', get_option('stepman_mapbox_access_token', 'not-available'));
+		wp_add_inline_script( 'stepman_backend_scripts', "stepmanMapboxAccessToken = '" .get_option('stepman_mapbox_access_token', 'not-available') . "';", "before");
     wp_enqueue_script('stepman_backend_scripts');
   }
 
