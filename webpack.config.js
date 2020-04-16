@@ -24,7 +24,7 @@ module.exports = {
 					chunks: 'all',
 					enforce: true,
 				},
-				style: {
+				admin: {
 					name: 'admin',
 					test: /admin\.(sc|sa|c)ss$/,
 					chunks: 'all',
@@ -39,19 +39,19 @@ module.exports = {
 		rules: [
 			...defaultConfig.module.rules,
 			{
-  			test: /\.(png|jpe?g|gif)$/i,
-        use: [
-          {
-            loader: "url-loader",
-            options: {
-              name: 'images/[name].[ext]'
-            }
-          },
-        ],
+				test: /\.(png|jpe?g|gif)$/i,
+				use: [
+					{
+						loader: 'url-loader',
+						options: {
+							name: 'images/[name].[ext]',
+						},
+					},
+				],
 			},
 			{
 				test: /\.(sc|sa|c)ss$/,
-/*				exclude: /node_modules/, */
+				/*				exclude: /node_modules/, */
 				use: [
 					{
 						loader: MiniCssExtractPlugin.loader,
@@ -83,7 +83,7 @@ module.exports = {
 						},
 					},
 					{
-  					loader: 'resolve-url-loader',
+						loader: 'resolve-url-loader',
 					},
 					{
 						loader: 'sass-loader',
