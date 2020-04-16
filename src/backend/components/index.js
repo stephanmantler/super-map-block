@@ -54,18 +54,31 @@ export class MapComponent extends Component {
 			13
 		);
 
-		L.tileLayer(
-			'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
-			{
-				attribution:
-					'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-				maxZoom: 18,
-				id: 'mapbox/streets-v11',
-				tileSize: 512,
-				zoomOffset: -1,
-				accessToken: this.props.accessToken,
-			}
-		).addTo( map );
+		if (
+			this.props.accessToken !== undefined &&
+			this.props.accessToken.length > 0
+		) {
+			L.tileLayer(
+				'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
+				{
+					attribution:
+						'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+					maxZoom: 18,
+					id: 'mapbox/streets-v11',
+					tileSize: 512,
+					zoomOffset: -1,
+					accessToken: this.props.accessToken,
+				}
+			).addTo( map );
+		} else {
+			L.tileLayer(
+				'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png ',
+				{
+					attribution:
+						'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+				}
+			).addTo( map );
+		}
 
 		const itemCache = [];
 

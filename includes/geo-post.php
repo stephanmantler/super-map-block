@@ -113,7 +113,7 @@ class stepman_geo_post {
 		  $asset_file['dependencies'],
       $asset_file['version']);
 
-		wp_add_inline_script( 'stepman_backend_scripts', "stepmanMapboxAccessToken = '" .get_option('stepman_mapbox_access_token', 'not-available') . "';", "before");
+		wp_add_inline_script( 'stepman_backend_scripts', "stepmanMapboxAccessToken = '" .get_option('stepman_mapbox_access_token', '') . "';", "before");
     wp_enqueue_script('stepman_backend_scripts');
   }
 
@@ -133,7 +133,7 @@ class stepman_geo_post {
 
   function settings_section_mapbox() {
     ?>
-    You will need a <a href="https://docs.mapbox.com/help/how-mapbox-works/access-tokens/">Mapbox access token</a> for this plugin to work.
+    This plugin shows OpenStreetMap tiles by default. To use Mapbox, request a <a href="https://docs.mapbox.com/help/how-mapbox-works/access-tokens/">Mapbox access token</a> and enter it below.
     <?
   }
 
