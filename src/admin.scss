@@ -66,3 +66,7 @@ div.pf_filter_item {
   margin-bottom: 5px !important;
 }
 
+.leaflet-draw-draw-polyline, .leaflet-draw-draw-rectangle, .leaflet-draw-draw-circlemarker {
+	visibility: hidden !important;
+}
+

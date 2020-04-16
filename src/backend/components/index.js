@@ -81,13 +81,13 @@ export class MapComponent extends Component {
 			let haveLayers = false;
 			meta.forEach( function( layer ) {
 				let newLayer;
-				if ( layer.type == 'circle' ) {
+				if ( layer.type === 'circle' ) {
 					newLayer = L.circle( layer.point, {
 						radius: layer.radius,
 					} );
-				} else if ( layer.type == 'marker' ) {
+				} else if ( layer.type === 'marker' ) {
 					newLayer = L.marker( layer.point );
-				} else if ( layer.type == 'polygon' ) {
+				} else if ( layer.type === 'polygon' ) {
 					newLayer = L.polygon( layer.points );
 				} else {
 					// protect against unknown layers
@@ -128,15 +128,15 @@ export class MapComponent extends Component {
 					l.type,
 					l.layer
 				);
-				if ( l.type == 'circle' ) {
+				if ( l.type === 'circle' ) {
 					out.push( {
 						type: l.type,
 						point: l.layer.getLatLng(),
 						radius: l.layer.getRadius(),
 					} );
-				} else if ( l.type == 'marker' ) {
+				} else if ( l.type === 'marker' ) {
 					out.push( { type: l.type, point: l.layer.getLatLng() } );
-				} else if ( l.type == 'polygon' ) {
+				} else if ( l.type === 'polygon' ) {
 					out.push( { type: l.type, points: l.layer.getLatLngs() } );
 				}
 			} );
