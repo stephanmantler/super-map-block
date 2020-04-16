@@ -49,7 +49,9 @@ registerPlugin( 'stepman-geo-location', {
     return (
       <>
         <PluginSidebarMoreMenuItem
-          target='stepman-geo-location'>
+          target='stepman-geo-location'
+          icon='admin-site-alt3'
+          >
           Geolocation
         </PluginSidebarMoreMenuItem>
         <PluginSidebar
