@@ -1,3 +1,5 @@
+'use strict';
+
 import { registerPlugin } from '@wordpress/plugins';
 import { PluginSidebar, PluginSidebarMoreMenuItem } from '@wordpress/edit-post';
 import { PanelBody, PanelRow, TextControl } from '@wordpress/components';
@@ -6,62 +8,59 @@ import { Component } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { MapComponent } from './components';
 
-let PluginMetaFields = (props) => {
-  return (
-    <>
-    <PanelBody
-      opened={ true }
-    >
-      <MapComponent
-        layers={props.metaFieldValue}
-        onChange={(value) => props.setMetaFieldValue(value)}
-      />
-      <TextControl
-        label="Location data (for debugging)"
-        value={props.metaFieldValue}
-        onChange={(value) => props.setMetaFieldValue(value)}
-      />
-    </PanelBody>
-    </>
-  )
-}
+let PluginMetaFields = ( props ) => {
+	return (
+		<>
+			<PanelBody opened={ true }>
+				<MapComponent
+					layers={ props.metaFieldValue }
+					onChange={ ( value ) => props.setMetaFieldValue( value ) }
+				/>
+				<TextControl
+					label="Location data (for debugging)"
+					value={ props.metaFieldValue }
+					onChange={ ( value ) => props.setMetaFieldValue( value ) }
+				/>
+			</PanelBody>
+		</>
+	);
+};
 
-PluginMetaFields = withSelect(
-  (select) => {
-    return {
-      metaFieldValue: select('core/editor').getEditedPostAttribute('meta')['stepman_meta_geolocation']
-    }
-  }
-)(PluginMetaFields);
+PluginMetaFields = withSelect( ( select ) => {
+	return {
+		metaFieldValue: select( 'core/editor' ).getEditedPostAttribute( 'meta' )
+			.stepman_meta_geolocation,
+	};
+} )( PluginMetaFields );
 
-PluginMetaFields = withDispatch(
-  (dispatch) => {
-    return {
-      setMetaFieldValue: (value) =>{
-        dispatch('core/editor').editPost({meta: { stepman_meta_geolocation: value }})
-      }
-    }
-  }
-)(PluginMetaFields);
+PluginMetaFields = withDispatch( ( dispatch ) => {
+	return {
+		setMetaFieldValue: ( value ) => {
+			dispatch( 'core/editor' ).editPost( {
+				meta: { stepman_meta_geolocation: value },
+			} );
+		},
+	};
+} )( PluginMetaFields );
 
 registerPlugin( 'stepman-geo-location', {
-  render: function() {
-    return (
-      <>
-        <PluginSidebarMoreMenuItem
-          target='stepman-geo-location'
-          icon='admin-site-alt3'
-          >
-          Geolocation
-        </PluginSidebarMoreMenuItem>
-        <PluginSidebar
-          name='stepman-geo-location'
-          icon='admin-site-alt3'
-          title='Geolocation'
-        >
-          <PluginMetaFields />
-        </PluginSidebar>
-      </>
-    );
-  }
-});
+	render() {
+		return (
+			<>
+				<PluginSidebarMoreMenuItem
+					target="stepman-geo-location"
+					icon="admin-site-alt3"
+				>
+					Geolocation
+				</PluginSidebarMoreMenuItem>
+				<PluginSidebar
+					name="stepman-geo-location"
+					icon="admin-site-alt3"
+					title="Geolocation"
+				>
+					<PluginMetaFields />
+				</PluginSidebar>
+			</>
+		);
+	},
+} );

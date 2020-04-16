@@ -1,2 +1,4 @@
-require('./backend/map');
-require('./backend/editor-sidebar');
+'use strict';
+
+require( './backend/map' );
+require( './backend/editor-sidebar' );
