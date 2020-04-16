@@ -5,7 +5,16 @@
   "main": "build/backend.js",
   "scripts": {
     "build": "wp-scripts build --output-path=build/ --display-modules",
-    "start": "wp-scripts start --output-path=build/ --display-modules"
+    "start": "wp-scripts start --output-path=build/ --display-modules",
+    "check-engines": "wp-scripts check-engines",
+    "check-licenses": "wp-scripts check-licenses",
+    "format:js": "wp-scripts format-js",
+    "lint:css": "wp-scripts lint-style",
+    "lint:js": "wp-scripts lint-js",
+    "lint:md:docs": "wp-scripts lint-md-docs",
+    "lint:md:js": "wp-scripts lint-md-js",
+    "lint:pkg-json": "wp-scripts lint-pkg-json",
+    "packages-update": "wp-scripts packages-update"
   },
   "author": "step",
   "license": "GPL-3.0-or-later",
