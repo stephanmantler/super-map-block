@@ -115,10 +115,6 @@ export class MapComponent extends Component {
 		} );
 		map.addControl( drawControl );
 
-		jQuery( '.leaflet-draw-draw-polyline' ).hide();
-		jQuery( '.leaflet-draw-draw-rectangle' ).hide();
-		jQuery( '.leaflet-draw-draw-circlemarker' ).hide();
-
 		const saveLayers = function() {
 			const out = [];
 			console.log( '= begin save =' );
