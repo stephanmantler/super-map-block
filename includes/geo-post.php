@@ -134,7 +134,7 @@ class stepman_geo_post {
   function settings_section_mapbox() {
     ?>
     This plugin shows OpenStreetMap tiles by default. To use Mapbox, request a <a href="https://docs.mapbox.com/help/how-mapbox-works/access-tokens/">Mapbox access token</a> and enter it below.
-    <?
+    <?php
   }
 
   function settings_field_mapbox() {
@@ -142,7 +142,7 @@ class stepman_geo_post {
     $setting = get_option('stepman_mapbox_access_token');
     // output the field
     ?>
-    <input type="text" name="stepman_mapbox_access_token" placeholder="paste your accees token here" style="font-family:monospace;" size="90" value="<?php echo isset( $setting ) ? esc_attr( $setting ) : ''; ?>">
+    <input type="text" name="stepman_mapbox_access_token" placeholder="paste your access token here" style="font-family:monospace;" size="90" value="<?php echo isset( $setting ) ? esc_attr( $setting ) : '(not set)'; ?>">
     <?php
   }
 
