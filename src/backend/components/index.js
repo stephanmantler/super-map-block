@@ -121,54 +121,57 @@ class MapComponentBase extends Component {
 			// fail silent
 		}
 
-		// initialize and customize control
-		const drawControl = new L.Control.Draw( {
-			edit: {
-				featureGroup: itemsGroup,
-			},
-		} );
-		map.addControl( drawControl );
-
-		const saveLayers = function() {
-			const out = [];
-
-			itemCache.forEach( function( l ) {
-				if ( l.type === 'circle' ) {
-					out.push( {
-						type: l.type,
-						point: l.layer.getLatLng(),
-						radius: l.layer.getRadius(),
-					} );
-				} else if ( l.type === 'marker' ) {
-					out.push( { type: l.type, point: l.layer.getLatLng() } );
-				} else if ( l.type === 'polygon' ) {
-					out.push( { type: l.type, points: l.layer.getLatLngs() } );
-				}
+		// show edit controls, if enabled
+		if ( this.props.allowEdit == true ) {
+			// initialize and customize control
+			const drawControl = new L.Control.Draw( {
+				edit: {
+					featureGroup: itemsGroup,
+				},
 			} );
-			self.props.onChange( JSON.stringify( out ) );
-		};
-
-		map.on( L.Draw.Event.CREATED, function( event ) {
-			const layer = event.layer;
-			itemsGroup.addLayer( layer );
-
-			itemCache[ itemsGroup.getLayerId( layer ) ] = {
-				type: event.layerType,
-				layer,
+			map.addControl( drawControl );
+	
+			const saveLayers = function() {
+				const out = [];
+	
+				itemCache.forEach( function( l ) {
+					if ( l.type === 'circle' ) {
+						out.push( {
+							type: l.type,
+							point: l.layer.getLatLng(),
+							radius: l.layer.getRadius(),
+						} );
+					} else if ( l.type === 'marker' ) {
+						out.push( { type: l.type, point: l.layer.getLatLng() } );
+					} else if ( l.type === 'polygon' ) {
+						out.push( { type: l.type, points: l.layer.getLatLngs() } );
+					}
+				} );
+				self.props.onChange( JSON.stringify( out ) );
 			};
-			saveLayers();
-		} );
-		map.on( L.Draw.Event.EDITED, function() {
-			saveLayers();
-		} );
-		map.on( L.Draw.Event.DELETED, function( event ) {
-			const layers = event.layers;
-			layers.eachLayer( function( layer ) {
-				delete itemCache[ itemsGroup.getLayerId( layer ) ];
-				itemsGroup.removeLayer( layer );
+	
+			map.on( L.Draw.Event.CREATED, function( event ) {
+				const layer = event.layer;
+				itemsGroup.addLayer( layer );
+	
+				itemCache[ itemsGroup.getLayerId( layer ) ] = {
+					type: event.layerType,
+					layer,
+				};
+				saveLayers();
 			} );
-			saveLayers();
-		} );
+			map.on( L.Draw.Event.EDITED, function() {
+				saveLayers();
+			} );
+			map.on( L.Draw.Event.DELETED, function( event ) {
+				const layers = event.layers;
+				layers.eachLayer( function( layer ) {
+					delete itemCache[ itemsGroup.getLayerId( layer ) ];
+					itemsGroup.removeLayer( layer );
+				} );
+				saveLayers();
+			} );
+		}
 	}
 }
 //const MapComponent = withInstanceId( MapComponentBase );

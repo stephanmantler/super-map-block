@@ -15,6 +15,7 @@ let PluginMetaFields = ( props ) => {
 				<MapComponent
 					layers={ props.metaFieldValue }
 					accessToken={ props.accessToken }
+					allowEdit={ true }
 					style={ { width: '100%', height: '400px' } }
 					onChange={ ( value ) => props.setMetaFieldValue( value ) }
 				/>
