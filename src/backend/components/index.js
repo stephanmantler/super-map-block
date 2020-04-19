@@ -36,7 +36,7 @@ class MapComponentBase extends Component {
 	render() {
 		return (
 			<div
-				id="stepman_geo_location_map_{ this.props.instanceId }"
+				id="stepman_geo_location_map"
 				ref={ this.bindContainer }
 				style={ this.props.style }
 			>
@@ -171,5 +171,6 @@ class MapComponentBase extends Component {
 		} );
 	}
 }
-const MapComponent = withInstanceId( MapComponentBase );
+//const MapComponent = withInstanceId( MapComponentBase );
+const MapComponent = MapComponentBase;
 export { MapComponent };
