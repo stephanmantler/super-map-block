@@ -1,6 +1,7 @@
 'use strict';
 
 import { Component } from '@wordpress/element';
+import { withInstanceId } from '@wordpress/compose';
 
 import L from 'leaflet';
 //import 'leaflet/dist/leaflet.css';
@@ -21,7 +22,7 @@ L.Icon.Default.mergeOptions( {
 	shadowUrl: markerShadow,
 } );
 
-export class MapComponent extends Component {
+class MapComponentBase extends Component {
 	constructor( props ) {
 		super( ...arguments );
 		this.props = props;
@@ -35,9 +36,9 @@ export class MapComponent extends Component {
 	render() {
 		return (
 			<div
-				id="stepman_geo_location_map"
+				id="stepman_geo_location_map_{ this.props.instanceId }"
 				ref={ this.bindContainer }
-				style={ { width: '100%', height: '300px' } }
+				style={ this.props.style }
 			>
 				(map loading here)
 			</div>
@@ -170,3 +171,5 @@ export class MapComponent extends Component {
 		} );
 	}
 }
+const MapComponent = withInstanceId( MapComponentBase );
+export { MapComponent };
