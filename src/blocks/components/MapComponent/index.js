@@ -1,7 +1,7 @@
 'use strict';
 
 import { Component } from '@wordpress/element';
-import { withInstanceId } from '@wordpress/compose';
+import { useInstanceId } from '@wordpress/compose';
 
 import L from 'leaflet';
 //import 'leaflet/dist/leaflet.css';
@@ -25,6 +25,7 @@ L.Icon.Default.mergeOptions( {
 class MapComponentBase extends Component {
 	constructor( props ) {
 		super( ...arguments );
+
 		this.props = props;
 		const self = this;
 
@@ -179,5 +180,5 @@ class MapComponentBase extends Component {
 	}
 }
 //const MapComponent = withInstanceId( MapComponentBase );
-const MapComponent = MapComponentBase;
-export { MapComponent };
+export const MapComponent = MapComponentBase;
+export default MapComponent;
