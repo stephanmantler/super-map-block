@@ -48,12 +48,15 @@ class MapComponentBase extends Component {
 	componentDidMount() {
 		const mapConfig = {
 			zoomControl: false,
+			attributionControl: false,
 		};
 
 		const map = L.map( this.container, mapConfig ).setView(
 			[ 51.505, -0.09 ],
 			13
 		);
+		
+		L.control.attribution({position:'topright'}).addTo(map);
 
 		if (
 			this.props.accessToken !== undefined &&
@@ -63,7 +66,7 @@ class MapComponentBase extends Component {
 				'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
 				{
 					attribution:
-						'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+						'&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> | <a href="https://www.mapbox.com/">Mapbox</a>',
 					maxZoom: 18,
 					id: 'mapbox/streets-v11',
 					tileSize: 512,
@@ -80,6 +83,7 @@ class MapComponentBase extends Component {
 				}
 			).addTo( map );
 		}
+		map.setView([64.65, -17.8], 5);
 
 		const itemCache = [];
 
