@@ -32,6 +32,19 @@ class MapComponentBase extends Component {
 		this.bindContainer = function( container ) {
 			self.container = container;
 		};
+		
+		this.state = {
+			pointX: 64.65,
+			pointY: -17.8,
+			zoom: 10,
+		};
+	}
+	
+	updatePosition(map) {
+		const pos = map.getCenter();
+		const zoo = map.getZoom();
+		this.props.onLocationChange( { pointX: pos.lng, pointY: pos.lat, zoom: zoo } );
+		
 	}
 
 	render() {
@@ -56,6 +69,9 @@ class MapComponentBase extends Component {
 			[ 51.505, -0.09 ],
 			13
 		);
+		
+		map.on('zoomend', (e) => { this.updatePosition(e.target); } );
+		map.on('moveend', (e) => { this.updatePosition(e.target); } );
 		
 		L.control.attribution({position:'topright'}).addTo(map);
 
@@ -84,7 +100,12 @@ class MapComponentBase extends Component {
 				}
 			).addTo( map );
 		}
-		map.setView([64.65, -17.8], 5);
+		if( this.props.location !== undefined ) {
+			const l = this.props.location;
+			map.setView([l.pointY, l.pointX], l.zoom);
+		} else {
+  		map.setView([64.65, -17.8], 5);
+  	}
 
 		const itemCache = [];
 
