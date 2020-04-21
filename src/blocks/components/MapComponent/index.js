@@ -43,8 +43,10 @@ class MapComponentBase extends Component {
 	updatePosition(map) {
 		const pos = map.getCenter();
 		const zoo = map.getZoom();
-		this.props.onLocationChange( { pointX: pos.lng, pointY: pos.lat, zoom: zoo } );
 		
+		if( this.props.onLocationChange !== undefined ) {
+			this.props.onLocationChange( { pointX: pos.lng, pointY: pos.lat, zoom: zoo } );
+		}
 	}
 
 	render() {
@@ -54,7 +56,6 @@ class MapComponentBase extends Component {
 				ref={ this.bindContainer }
 				style={ this.props.style }
 			>
-				(map loading here)
 			</div>
 		);
 	}
@@ -140,7 +141,8 @@ class MapComponentBase extends Component {
 					layer: newLayer,
 				};
 			} );
-			if ( haveLayers ) {
+			// don't jump around if we have a defined location
+			if ( haveLayers && this.props.location === undefined ) {
 				map.fitBounds( itemsGroup.getBounds(), { animate: false } );
 			}
 		} catch ( e ) {
