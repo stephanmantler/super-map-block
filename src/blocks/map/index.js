@@ -13,7 +13,7 @@ export const settings = {
 	attributes: {
 		width: {
 			type: 'string',
-			default: '80%',
+			default: '100%',
 		},
 		height: {
 			type: 'string',
