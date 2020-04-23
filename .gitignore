@@ -9,3 +9,4 @@ node_modules/
 *.sql
 *.sqlite
 bfg-keywords.txt
+.DS_Store
