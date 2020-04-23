@@ -8,7 +8,7 @@ export const settings = {
 	title: 'Map Block',
 	description: 'Embed a leaflet map element',
 	icon: 'admin-site-alt3',
-	category: 'layout',
+	category: 'embed',
 	example: {},
 	attributes: {
 		width: {
