@@ -32,12 +32,6 @@ class MapComponentBase extends Component {
 		this.bindContainer = function( container ) {
 			self.container = container;
 		};
-		
-		this.state = {
-			pointX: 64.65,
-			pointY: -17.8,
-			zoom: 10,
-		};
 	}
 	
 	updatePosition(map) {
