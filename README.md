@@ -16,7 +16,13 @@ After installing and activating the plugin, there will be a new sidebar in your 
 
 You can place as many polygons, circles and/or markers on the map as you see fit to represent your page or post.
 
-Right now, there's not much more you can do with it. Coming soon!
+## Embedding maps in page content
+
+The block can be found in the Embeds section, or just search for "Map Block". You can pan / zoom the map to a suitable location and this will be stored once you hit the save / update button. The sidebar gives you control over how much space the map block is allowed to take up (recommended settings are 100% width, and a suitable vertical size in pixels).
+
+Multiple map blocks work as expected.
+
+Right now, there's not much else functionality. Coming soon!
 
 ## License
 
