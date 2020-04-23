@@ -1,0 +1,11 @@
+#local-map {
+  margin-left: auto;
+  margin-right: auto;
+}
+#stepman_geo_location_map .leaflet-tile-pan,
+#stepman_geo_location_map .leaflet-pane {
+	z-index: auto !important;
+}
+#stepman_geo_location_map .leaflet-control {
+	z-index: auto !important;
+}
