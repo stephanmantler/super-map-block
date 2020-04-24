@@ -11,9 +11,9 @@ jQuery( document ).ready(
 
 			L.control.attribution( { position: 'topright' } ).addTo( map );
 
-			const accessToken = undefined;
+			const accessToken = elem.getAttribute( 'data-token' );
 
-			if ( accessToken !== undefined && accessToken.length > 0 ) {
+			if ( accessToken !== null && accessToken.length > 0 ) {
 				L.tileLayer(
 					'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
 					{
@@ -23,7 +23,7 @@ jQuery( document ).ready(
 						id: 'mapbox/streets-v11',
 						tileSize: 512,
 						zoomOffset: -1,
-						accessToken: this.props.accessToken,
+						accessToken,
 					}
 				).addTo( map );
 			} else {
@@ -35,14 +35,16 @@ jQuery( document ).ready(
 					}
 				).addTo( map );
 			}
-			/*
-		if( this.props.location !== undefined ) {
-			const l = this.props.location;
-			map.setView([l.pointY, l.pointX], l.zoom);
-		} else {
-	*/
-			map.setView( [ 64.65, -17.8 ], 5 );
-			//	}
+
+			const px = elem.getAttribute( 'data-poslon' );
+			const py = elem.getAttribute( 'data-poslat' );
+			const zoom = elem.getAttribute( 'data-zoom' );
+
+			if ( px !== null && py !== null && zoom !== null ) {
+				map.setView( [ py, px ], zoom );
+			} else {
+				map.setView( [ 64.65, -17.8 ], 5 );
+			}
 
 			/*
 		const itemCache = [];
