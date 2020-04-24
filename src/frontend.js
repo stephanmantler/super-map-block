@@ -4,6 +4,20 @@ import L from 'leaflet';
 
 import 'leaflet/dist/leaflet.css';
 
+import marker from 'leaflet/dist/images/marker-icon.png';
+import marker2x from 'leaflet/dist/images/marker-icon-2x.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+
+delete L.Icon.Default.prototype._getIconUrl;
+
+L.Icon.Default.mergeOptions( {
+	iconRetinaUrl: marker2x,
+	iconUrl: marker,
+	shadowUrl: markerShadow,
+} );
+
+import 'leaflet-draw/dist/leaflet.draw.css';
+
 jQuery( document ).ready(
 	( function() {
 		jQuery( '.stepman_geo_location_map' ).each( function( index, elem ) {
@@ -65,48 +79,53 @@ jQuery( document ).ready(
 				map.setMaxZoom( zoom );
 			}
 
-			/*
-		const itemCache = [];
-	
-		// FeatureGroup is to store editable layers
-		const itemsGroup = new L.FeatureGroup();
-		itemsGroup.addTo( map );
-	
-		const self = this;
-	
-		// populate itemsGroup with existing data
-		try {
-			const meta = JSON.parse( self.props.layers );
-			let haveLayers = false;
-			meta.forEach( function( layer ) {
-				let newLayer;
-				if ( layer.type === 'circle' ) {
-					newLayer = L.circle( layer.point, {
-						radius: layer.radius,
-					} );
-				} else if ( layer.type === 'marker' ) {
-					newLayer = L.marker( layer.point );
-				} else if ( layer.type === 'polygon' ) {
-					newLayer = L.polygon( layer.points );
-				} else {
-					// protect against unknown layers
-					return;
-				}
-				haveLayers = true;
-				itemsGroup.addLayer( newLayer );
-				itemCache[ itemsGroup.getLayerId( newLayer ) ] = {
-					type: layer.type,
-					layer: newLayer,
-				};
-			} );
-			// don't jump around if we have a defined location
-			if ( haveLayers && this.props.location === undefined ) {
-				map.fitBounds( itemsGroup.getBounds(), { animate: false } );
+			const layers = elem.getAttribute( 'data-layers' );
+			
+			// if no layers, we're done.
+			if ( !layers || layers === "" ) {
+				return;
 			}
-		} catch ( e ) {
-			// fail silent
-		}
-		*/
+			
+			const itemCache = [];
+
+			// FeatureGroup is to store editable layers
+			const itemsGroup = new L.FeatureGroup();
+			itemsGroup.addTo( map );
+
+			const self = this;
+
+			// populate itemsGroup with existing data
+			try {
+				const meta = JSON.parse( layers );
+				let haveLayers = false;
+				meta.forEach( function( layer ) {
+					let newLayer;
+					if ( layer.type === 'circle' ) {
+						newLayer = L.circle( layer.point, {
+							radius: layer.radius,
+						} );
+					} else if ( layer.type === 'marker' ) {
+						newLayer = L.marker( layer.point );
+					} else if ( layer.type === 'polygon' ) {
+						newLayer = L.polygon( layer.points );
+					} else {
+						// protect against unknown layers
+						return;
+					}
+					haveLayers = true;
+					itemsGroup.addLayer( newLayer );
+					itemCache[ itemsGroup.getLayerId( newLayer ) ] = {
+						type: layer.type,
+						layer: newLayer,
+					};
+				} );
+				// don't jump around if we have a defined location
+				if ( haveLayers && this.props.location === undefined ) {
+					map.fitBounds( itemsGroup.getBounds(), { animate: false } );
+				}
+			} catch ( e ) {
+				// fail silent
+			}
 		} );
 	} )( jQuery )
 );

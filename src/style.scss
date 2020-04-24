@@ -2,4 +2,5 @@
 
 /* right now this is an admin-only plugin with no user facing output */
 @import "~leaflet";
+@import "~leaflet-draw";
 @import './blocks/map/style.scss';

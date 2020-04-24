@@ -1,6 +1,7 @@
 import { InspectorControls } from '@wordpress/block-editor';
 import { TextControl, PanelBody, PanelRow, ToggleControl } from '@wordpress/components';
 import { MapComponent } from '../components';
+import { withSelect } from '@wordpress/data';
 
 export const name = 'stepman/post-map-block';
 
@@ -27,16 +28,36 @@ export const settings = {
 				zoom: 10,
 			},
 		},
+		showMetaShapes: {
+			type: 'boolean',
+			default: false,
+		},
 		allowInteraction: {
 			type: 'boolean',
 			default: true,
 		},
+		layers: {
+			type: "string",
+			default: "",
+		}
 	},
-	edit: ( props ) => {
+	edit: withSelect( ( select ) => {
+		return { 
+			layers: select( 'core/editor' ).getEditedPostAttribute( 'meta' )
+			.stepman_meta_geolocation,
+			};
+		} )( ( props ) => {
 		const {
-			attributes: { width, height, mapLocation, allowInteraction },
+			attributes: { width, height, mapLocation, allowInteraction, showMetaShapes },
+			layers,
 			className,
 		} = props;
+
+		if ( showMetaShapes ) {
+			props.setAttributes( { layers: layers } );
+		} else {
+			props.setAttributes( { layers: "" } );
+		}
 
 		const onChangeWidth = ( newValue ) => {
 			props.setAttributes( { width: newValue } );
@@ -52,6 +73,10 @@ export const settings = {
 
 		const onToggleInteraction = ( newValue ) => {
 			props.setAttributes( { allowInteraction: newValue } );
+		};
+
+		const onToggleShowMeta = ( newValue ) => {
+			props.setAttributes( { showMetaShapes: newValue } );
 		};
 
 		const controls = [
@@ -78,6 +103,13 @@ export const settings = {
 							onChange={ onToggleInteraction }
 						/>
 					</PanelRow>
+					<PanelRow>
+						<ToggleControl
+							label="show annotation shapes"
+							checked={ showMetaShapes }
+							onChange={ onToggleShowMeta }
+						/>
+					</PanelRow>
 				</PanelBody>
 			</InspectorControls>,
 		];
@@ -86,6 +118,11 @@ export const settings = {
 			width: props.attributes.width,
 			height: props.attributes.height,
 		};
+
+//		if( props.attributes.showMetaShapes ) {
+//			layers = wp.data.select( 'core/editor' ).getEditedPostAttribute('meta').stepman_meta_geolocation;
+//		}
+
 		return (
 			<>
 				{ controls }
@@ -95,15 +132,21 @@ export const settings = {
 					location={ props.attributes.mapLocation }
 					onLocationChange={ onMapChange }
 					allowInteraction={ props.attributes.allowInteraction }
+					layers={ props.attributes.showMetaShapes ? layers : "" }
 				/>
 			</>
 		);
-	},
+		
+	}),
 	save: ( props ) => {
 		const style = {
 			width: props.attributes.width,
 			height: props.attributes.height,
 		};
+
+//		if( props.attributes.showMetaShapes ) {
+//			layers = wp.data.select( 'core/editor' ).getEditedPostAttribute('meta').stepman_meta_geolocation;
+//		}
 
 		return (
 			<MapComponent
@@ -111,6 +154,7 @@ export const settings = {
 				style={ style }
 				location={ props.attributes.mapLocation }
 				allowInteraction={ props.attributes.allowInteraction }
+				layers={ props.attributes.layers }
 			/>
 		);
 	},

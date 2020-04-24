@@ -64,6 +64,7 @@ class MapComponentBase extends Component {
 				style={ this.props.style }
 				data-token={ this.props.accessToken || null }
 				data-interactive={ this.props.allowInteraction }
+				data-layers={this.props.layers}
 			></div>
 		);
 	}
