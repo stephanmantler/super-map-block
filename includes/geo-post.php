@@ -80,7 +80,7 @@ class stepman_geo_post {
 		register_activation_hook( $this->file, array( $this, 'install' ) );
 
 		// Load frontend JS & CSS.
-		// add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ), 10 );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 10 );
 		// add_action( 'wp_enqueue_styles', array( $this, 'enqueue_scripts' ), 10 );
 
 		// Load admin JS & CSS.
@@ -93,6 +93,26 @@ class stepman_geo_post {
     add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 
   }
+  
+  function enqueue_scripts() {
+		$asset_file = include( $this->assets_dir . '/frontend.asset.php');
+		wp_register_script( 'stepman_frontend_scripts',
+			esc_url( $this->assets_url ) . 'frontend.js',
+			$asset_file['dependencies'],
+			$asset_file['version'],
+			true);
+			
+		wp_enqueue_script( 'stepman_frontend_scripts' );
+		
+ 		$asset_file = include( $this->assets_dir . '/style.asset.php');
+    wp_register_style('stepman_style',
+		  esc_url( $this->assets_url ) . 'style.css',
+		  array(),
+      $asset_file['version']);
+
+    wp_enqueue_style('stepman_style');
+		
+	}
 
   public function register_meta_fields() {
     register_post_meta('', 'stepman_meta_geolocation', array('show_in_rest' => true, 'single' => true, 'type' => 'string'));

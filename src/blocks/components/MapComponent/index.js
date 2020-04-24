@@ -1,7 +1,6 @@
 'use strict';
 
 import { Component } from '@wordpress/element';
-import { useInstanceId } from '@wordpress/compose';
 
 import L from 'leaflet';
 //import 'leaflet/dist/leaflet.css';
@@ -33,24 +32,38 @@ class MapComponentBase extends Component {
 			self.container = container;
 		};
 	}
-	
-	updatePosition(map) {
+
+	updatePosition( map ) {
 		const pos = map.getCenter();
 		const zoo = map.getZoom();
-		
-		if( this.props.onLocationChange !== undefined ) {
-			this.props.onLocationChange( { pointX: pos.lng, pointY: pos.lat, zoom: zoo } );
+
+		if ( this.props.onLocationChange !== undefined ) {
+			this.props.onLocationChange( {
+				pointX: pos.lng,
+				pointY: pos.lat,
+				zoom: zoo,
+			} );
 		}
 	}
 
 	render() {
+		const self = this;
+		const divprops = {
+			style: self.props.style,
+		};
+		if ( this.props.location !== undefined ) {
+			divprops[ 'data-poslon' ] = this.props.location.pointX;
+			divprops[ 'data-poslat' ] = this.props.location.pointY;
+			divprops[ 'data-zoom' ] = this.props.location.zoom;
+		}
 		return (
 			<div
-				id="stepman_geo_location_map"
+				className="stepman_geo_location_map"
 				ref={ this.bindContainer }
+				{ ...divprops }
 				style={ this.props.style }
-			>
-			</div>
+				data-token={ this.props.accessToken || null }
+			></div>
 		);
 	}
 
@@ -64,11 +77,15 @@ class MapComponentBase extends Component {
 			[ 51.505, -0.09 ],
 			13
 		);
-		
-		map.on('zoomend', (e) => { this.updatePosition(e.target); } );
-		map.on('moveend', (e) => { this.updatePosition(e.target); } );
-		
-		L.control.attribution({position:'topright'}).addTo(map);
+
+		map.on( 'zoomend', ( e ) => {
+			this.updatePosition( e.target );
+		} );
+		map.on( 'moveend', ( e ) => {
+			this.updatePosition( e.target );
+		} );
+
+		L.control.attribution( { position: 'topright' } ).addTo( map );
 
 		if (
 			this.props.accessToken !== undefined &&
@@ -95,12 +112,12 @@ class MapComponentBase extends Component {
 				}
 			).addTo( map );
 		}
-		if( this.props.location !== undefined ) {
+		if ( this.props.location !== undefined ) {
 			const l = this.props.location;
-			map.setView([l.pointY, l.pointX], l.zoom);
+			map.setView( [ l.pointY, l.pointX ], l.zoom );
 		} else {
-  		map.setView([64.65, -17.8], 5);
-  	}
+			map.setView( [ 64.65, -17.8 ], 5 );
+		}
 
 		const itemCache = [];
 
@@ -144,7 +161,7 @@ class MapComponentBase extends Component {
 		}
 
 		// show edit controls, if enabled
-		if ( this.props.allowEdit == true ) {
+		if ( this.props.allowEdit === true ) {
 			// initialize and customize control
 			const drawControl = new L.Control.Draw( {
 				edit: {
@@ -152,10 +169,10 @@ class MapComponentBase extends Component {
 				},
 			} );
 			map.addControl( drawControl );
-	
+
 			const saveLayers = function() {
 				const out = [];
-	
+
 				itemCache.forEach( function( l ) {
 					if ( l.type === 'circle' ) {
 						out.push( {
@@ -164,18 +181,24 @@ class MapComponentBase extends Component {
 							radius: l.layer.getRadius(),
 						} );
 					} else if ( l.type === 'marker' ) {
-						out.push( { type: l.type, point: l.layer.getLatLng() } );
+						out.push( {
+							type: l.type,
+							point: l.layer.getLatLng(),
+						} );
 					} else if ( l.type === 'polygon' ) {
-						out.push( { type: l.type, points: l.layer.getLatLngs() } );
+						out.push( {
+							type: l.type,
+							points: l.layer.getLatLngs(),
+						} );
 					}
 				} );
 				self.props.onChange( JSON.stringify( out ) );
 			};
-	
+
 			map.on( L.Draw.Event.CREATED, function( event ) {
 				const layer = event.layer;
 				itemsGroup.addLayer( layer );
-	
+
 				itemCache[ itemsGroup.getLayerId( layer ) ] = {
 					type: event.layerType,
 					layer,

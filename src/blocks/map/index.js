@@ -22,13 +22,13 @@ export const settings = {
 		mapLocation: {
 			type: 'object',
 			default: {
-			pointX: -17.8,
-			pointY: 64.65,
-			zoom: 10,
-		},
+				pointX: -17.8,
+				pointY: 64.65,
+				zoom: 10,
+			},
 		},
 	},
-	edit: function( props ) {
+	edit: ( props ) => {
 		const {
 			attributes: { width, height, mapLocation },
 			className,
@@ -41,10 +41,10 @@ export const settings = {
 		const onChangeHeight = ( newValue ) => {
 			props.setAttributes( { height: newValue } );
 		};
-		
+
 		const onMapChange = ( newValue ) => {
 			props.setAttributes( { mapLocation: newValue } );
-		}
+		};
 
 		const controls = [
 			<InspectorControls key="stepman_map_controls">
@@ -77,13 +77,13 @@ export const settings = {
 				<MapComponent
 					accessToken={ window.stepmanMapboxAccessToken }
 					style={ style }
-					location = { props.attributes.mapLocation }
-					onLocationChange = { onMapChange }
+					location={ props.attributes.mapLocation }
+					onLocationChange={ onMapChange }
 				/>
 			</>
 		);
 	},
-	save: function( props ) {
+	save: ( props ) => {
 		const style = {
 			width: props.attributes.width,
 			height: props.attributes.height,
@@ -93,7 +93,7 @@ export const settings = {
 			<MapComponent
 				accessToken={ window.stepmanMapboxAccessToken }
 				style={ style }
-				location = { props.attributes.mapLocation }
+				location={ props.attributes.mapLocation }
 			/>
 		);
 	},
