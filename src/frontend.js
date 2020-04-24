@@ -7,7 +7,20 @@ import 'leaflet/dist/leaflet.css';
 jQuery( document ).ready(
 	( function() {
 		jQuery( '.stepman_geo_location_map' ).each( function( index, elem ) {
-			const map = L.map( elem ).setView( [ 51.505, -0.09 ], 13 );
+			const allowInteraction = ( elem.getAttribute( 'data-interactive' ) === 'true' );
+
+			const mapConfig = {
+				zoomControl: allowInteraction,
+				dragging: allowInteraction,
+				boxZoom: allowInteraction,
+				doubleClickZoom: allowInteraction,
+				scrollWheelZoom: allowInteraction,
+				keyboard: allowInteraction,
+				touchZoom: allowInteraction,
+				attributionControl: false,
+			};
+
+			const map = L.map( elem, mapConfig ).setView( [ 51.505, -0.09 ], 13 );
 
 			L.control.attribution( { position: 'topright' } ).addTo( map );
 
@@ -44,6 +57,12 @@ jQuery( document ).ready(
 				map.setView( [ py, px ], zoom );
 			} else {
 				map.setView( [ 64.65, -17.8 ], 5 );
+			}
+
+			if ( !allowInteraction ) {
+				const zoom = map.getZoom();
+				map.setMinZoom( zoom );
+				map.setMaxZoom( zoom );
 			}
 
 			/*

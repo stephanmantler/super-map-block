@@ -1,5 +1,5 @@
 import { InspectorControls } from '@wordpress/block-editor';
-import { TextControl, PanelBody, PanelRow } from '@wordpress/components';
+import { TextControl, PanelBody, PanelRow, ToggleControl } from '@wordpress/components';
 import { MapComponent } from '../components';
 
 export const name = 'stepman/post-map-block';
@@ -27,10 +27,14 @@ export const settings = {
 				zoom: 10,
 			},
 		},
+		allowInteraction: {
+			type: 'boolean',
+			default: true,
+		},
 	},
 	edit: ( props ) => {
 		const {
-			attributes: { width, height, mapLocation },
+			attributes: { width, height, mapLocation, allowInteraction },
 			className,
 		} = props;
 
@@ -44,6 +48,10 @@ export const settings = {
 
 		const onMapChange = ( newValue ) => {
 			props.setAttributes( { mapLocation: newValue } );
+		};
+
+		const onToggleInteraction = ( newValue ) => {
+			props.setAttributes( { allowInteraction: newValue } );
 		};
 
 		const controls = [
@@ -63,6 +71,13 @@ export const settings = {
 							onChange={ onChangeHeight }
 						/>
 					</PanelRow>
+					<PanelRow>
+						<ToggleControl
+							label="allow pan & zoom"
+							checked={ allowInteraction }
+							onChange={ onToggleInteraction }
+						/>
+					</PanelRow>
 				</PanelBody>
 			</InspectorControls>,
 		];
@@ -79,6 +94,7 @@ export const settings = {
 					style={ style }
 					location={ props.attributes.mapLocation }
 					onLocationChange={ onMapChange }
+					allowInteraction={ props.attributes.allowInteraction }
 				/>
 			</>
 		);
@@ -94,6 +110,7 @@ export const settings = {
 				accessToken={ window.stepmanMapboxAccessToken }
 				style={ style }
 				location={ props.attributes.mapLocation }
+				allowInteraction={ props.attributes.allowInteraction }
 			/>
 		);
 	},
