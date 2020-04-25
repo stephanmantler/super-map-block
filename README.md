@@ -1,5 +1,5 @@
 # stepman-geo-post
-A wordpress plugin to provide geolocation to posts &amp; pages. There are of course already similar plugins out there, but this is a convenient project for me to become more familiar with modern development for the Gutenberg editor.
+A wordpress plugin to provide geolocation to posts &amp; pages and display maps (optionally with annotations). Uses [leaflet](https://leafletjs.com) for map display. Supports [OpenStreetMap](http://openstreetmap.org) and [Mapbox](https://www.mapbox.com).
 
 ## Getting Started
 
@@ -14,8 +14,7 @@ This repository only contains the raw sources and requires a development environ
 
 ![](doc/media/locate-page.gif)
 
-
-After installing and activating the plugin, there will be a new sidebar in your Gutenberg editor (look for the globe icon in the top right corner). If it does not show up directly, you can access it through the 'More tools and options' section (three vertical dots) as Plugins -> Geolocation.
+After installing and activating the plugin, there will be a new sidebar in your Gutenberg editor (look for the globe icon in the top right corner). If it does not show up directly, you can access it through the `More tools and options` section (three vertical dots) at `Plugins` -> `Geolocation`.
 
 You can place as many polygons, circles and/or markers on the map as you see fit to represent your page or post.
 
@@ -25,9 +24,58 @@ You can place as many polygons, circles and/or markers on the map as you see fit
 
 The block can be found in the Embeds section, or just search for "Map Block". You can pan / zoom the map to a suitable location and this will be stored once you hit the save / update button. The sidebar gives you control over how much space the map block is allowed to take up (recommended settings are 100% width, and a suitable vertical size in pixels).
 
-Multiple map blocks work as expected.
+### Options
+* Interaction (pan/zoom) on the front end can be disabled (but remains enabled in the editor).
+* Post geolocation annotations can be optionally displayed as well (requires page refresh for the preview to update).
 
-Right now, there's not much else functionality. Coming soon!
+Adding multiple map blocks works as expected.
+
+## Integrating with other themes or plugins
+
+Annotations are stored as a serialized [GeoJSON](https://geojson.org) `FeatureCollection` in the `stepman_meta_geolocation` field. GeoJSON does not directly support circles; those are therefore stored as points with an additional `radius` property:
+
+```javascript
+{ "type": "FeatureCollection",
+  "features": [
+    {
+      /* -- a circle -- */
+      "type": "Feature",   
+      "properties" : {
+        "radius": 129.59796699348766
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [ -15.112295, 64.289798 ]
+    } },
+    {
+      /* -- a marker -- */
+      "type":"Feature",
+      "properties": {},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [ -15.108519, 64.29475 ]
+    } }
+  ]
+}
+```
+
+Display styles can be changed by providing a `style` property as well, overriding any [Path options](https://leafletjs.com/reference-1.6.0.html#path-option) as required:
+
+```javascript
+{
+  /* -- a red circle -- */
+  "type": "Feature",   
+  "properties" : {
+    "radius": 100.0
+    "style" : {
+      "color": "#ff000"
+    }
+  },
+  "geometry": {
+    "type": "Point",
+    "coordinates": [ -15.112295, 64.289798 ]
+}
+```
 
 ## License
 
