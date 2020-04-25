@@ -95,7 +95,7 @@ class MapComponentBase extends Component {
 			this.updatePosition( e.target );
 		} );
 
-		L.control.attribution( { position: 'topright' } ).addTo( map );
+		L.control.attribution( { position: 'bottomright' } ).addTo( map );
 
 		if (
 			this.props.accessToken !== undefined &&
@@ -151,6 +151,13 @@ class MapComponentBase extends Component {
 					},
 					onEachFeature: (feature, layer) => {
 						itemsGroup.addLayer(layer);
+					},
+					style: (feature) => {
+						if ( feature.properties.style ) {
+							return feature.properties.style;
+						} else {
+							return { /* default */ };
+						}
 					},
 				} );
 			} );
