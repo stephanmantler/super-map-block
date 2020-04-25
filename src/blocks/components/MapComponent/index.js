@@ -1,5 +1,5 @@
 /**
- * Implements the Map component.
+ * Implements the backend Map component.
  *
  * @link   https://github.com/stephanmantler/stepman-geo-post
  * @file   Implements the Map component.
@@ -10,24 +10,14 @@
 
 import { Component } from '@wordpress/element';
 
+import { hookMap, parseGeoJSON } from './MapController.js';
+
 import L from 'leaflet';
 //import 'leaflet/dist/leaflet.css';
 import 'leaflet-draw';
 
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-draw/dist/leaflet.draw.css';
-
-import marker from 'leaflet/dist/images/marker-icon.png';
-import marker2x from 'leaflet/dist/images/marker-icon-2x.png';
-import markerShadow from 'leaflet/dist/images/marker-shadow.png';
-
-delete L.Icon.Default.prototype._getIconUrl;
-
-L.Icon.Default.mergeOptions( {
-	iconRetinaUrl: marker2x,
-	iconUrl: marker,
-	shadowUrl: markerShadow,
-} );
 
 class MapComponentBase extends Component {
 	constructor( props ) {
@@ -83,10 +73,7 @@ class MapComponentBase extends Component {
 			attributionControl: false,
 		};
 
-		const map = L.map( this.container, mapConfig ).setView(
-			[ 51.505, -0.09 ],
-			13
-		);
+		const map = hookMap( this.container, mapConfig );
 
 		map.on( 'zoomend', ( e ) => {
 			this.updatePosition( e.target );
@@ -95,79 +82,13 @@ class MapComponentBase extends Component {
 			this.updatePosition( e.target );
 		} );
 
-		L.control.attribution( { position: 'bottomright' } ).addTo( map );
-
-		if (
-			this.props.accessToken !== undefined &&
-			this.props.accessToken.length > 0
-		) {
-			L.tileLayer(
-				'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
-				{
-					attribution:
-						'&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> | <a href="https://www.mapbox.com/">Mapbox</a>',
-					maxZoom: 18,
-					id: 'mapbox/streets-v11',
-					tileSize: 512,
-					zoomOffset: -1,
-					accessToken: this.props.accessToken,
-				}
-			).addTo( map );
-		} else {
-			L.tileLayer(
-				'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png ',
-				{
-					attribution:
-						'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
-				}
-			).addTo( map );
-		}
-		if ( this.props.location !== undefined ) {
-			const l = this.props.location;
-			map.setView( [ l.pointY, l.pointX ], l.zoom );
-		} else {
-			map.setView( [ 64.65, -17.8 ], 5 );
-		}
-
-		// FeatureGroup is to store editable layers
-		const itemsGroup = new L.FeatureGroup();
+		const itemsGroup = parseGeoJSON( this.props.layers );
 		itemsGroup.addTo( map );
 
-		const self = this;
-
-		// populate itemsGroup with existing data
-		try {
-			const meta = JSON.parse( self.props.layers );
-
-			meta.features.forEach( function( feature ) {
-
-				L.geoJSON( feature, {
-					pointToLayer: (feature, latlng) => {
-						if ( feature.properties.radius ) {
-							return new L.Circle( latlng, feature.properties.radius );
-						} else {
-							return new L.Marker( latlng );
-						}
-					},
-					onEachFeature: (feature, layer) => {
-						itemsGroup.addLayer(layer);
-					},
-					style: (feature) => {
-						if ( feature.properties.style ) {
-							return feature.properties.style;
-						} else {
-							return { /* default */ };
-						}
-					},
-				} );
-			} );
-			// don't jump around if we have a defined location
-			if ( itemsGroup.getLayers().length && this.props.location === undefined ) {
-				map.fitBounds( itemsGroup.getBounds(), { animate: false } );
-			}
-		} catch ( e ) {
-			// fail silent
-		}
+		// don't jump around if we have a defined location
+    if ( itemsGroup.getLayers().length && this.props.location === undefined ) {
+      map.fitBounds( itemsGroup.getBounds(), { animate: false } );
+    }
 
 		// show edit controls, if enabled
 		if ( this.props.allowEdit === true ) {
@@ -178,6 +99,8 @@ class MapComponentBase extends Component {
 				},
 			} );
 			map.addControl( drawControl );
+
+			const self = this;
 
 			const saveLayers = function() {
 				const out = { type: "FeatureCollection", features: [] };
