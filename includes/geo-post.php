@@ -185,10 +185,12 @@ class stepman_geo_post {
   }
 
   /**
-  ***
-  *** Plugin settings
-  ***
-  ***/
+   * Register admin settings screen.
+   *
+	 * Runs in the `admin_init` action.
+	 *
+	 * @since   1.0.0
+	 */
   function admin_init()
   {
     register_setting('stepman', 'stepman_mapbox_access_token', array( 'type' => 'string'));
@@ -198,12 +200,22 @@ class stepman_geo_post {
     add_settings_field('stepman_settings_field_mapbox', "Access Token", array( $this, 'settings_field_mapbox'), 'stepman', 'stepman_settings_section_mapbox');
   }
 
+  /**
+   * Displays the mapbox settings section.
+   *
+	 * @since   1.0.0
+	 */
   function settings_section_mapbox() {
     ?>
     This plugin shows OpenStreetMap tiles by default. To use Mapbox, request a <a href="https://docs.mapbox.com/help/how-mapbox-works/access-tokens/">Mapbox access token</a> and enter it below.
     <?php
   }
 
+  /**
+   * Displays the mapbox settings field.
+   *
+	 * @since   1.0.0
+	 */
   function settings_field_mapbox() {
     // get the value of the setting we've registered with register_setting()
     $setting = get_option('stepman_mapbox_access_token');
@@ -213,6 +225,14 @@ class stepman_geo_post {
     <?php
   }
 
+
+  /**
+   * Registers the admin settings menu.
+   *
+	 * Runs in the `admin_menu` action.
+	 *
+	 * @since   1.0.0
+	 */
   function admin_menu() {
       add_plugins_page(
           'stepman\'s global plugin settings',
@@ -224,6 +244,11 @@ class stepman_geo_post {
       );
   }
 
+  /**
+   * Render the plugin options page.
+   *
+	 * @since   1.0.0
+	 */
   function options_page_html() {
 
     if ( ! current_user_can( 'manage_options' ) ) {
@@ -235,12 +260,8 @@ class stepman_geo_post {
         <h1><?php esc_html( get_admin_page_title() ); ?></h1>
         <form action="options.php" method="post">
           <?php
-          // output security fields for the registered setting "wporg_options"
           settings_fields( 'stepman' );
-          // output setting sections and their fields
-          // (sections are registered for "wporg", each field is registered to a specific section)
           do_settings_sections( 'stepman' );
-          // output save settings button
           submit_button( 'Save Settings' );
           ?>
         </form>
@@ -251,6 +272,7 @@ class stepman_geo_post {
 	/**
 	 * Cloning is forbidden.
 	 *
+	 * @ignore
 	 * @since 1.0.0
 	 */
 	public function __clone() {
@@ -261,6 +283,7 @@ class stepman_geo_post {
 	/**
 	 * Unserializing instances of this class is forbidden.
 	 *
+	 * @ignore
 	 * @since 1.0.0
 	 */
 	public function __wakeup() {
