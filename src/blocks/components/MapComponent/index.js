@@ -129,8 +129,6 @@ class MapComponentBase extends Component {
 			map.setView( [ 64.65, -17.8 ], 5 );
 		}
 
-		const itemCache = [];
-
 		// FeatureGroup is to store editable layers
 		const itemsGroup = new L.FeatureGroup();
 		itemsGroup.addTo( map );
@@ -140,30 +138,24 @@ class MapComponentBase extends Component {
 		// populate itemsGroup with existing data
 		try {
 			const meta = JSON.parse( self.props.layers );
-			let haveLayers = false;
-			meta.forEach( function( layer ) {
-				let newLayer;
-				if ( layer.type === 'circle' ) {
-					newLayer = L.circle( layer.point, {
-						radius: layer.radius,
-					} );
-				} else if ( layer.type === 'marker' ) {
-					newLayer = L.marker( layer.point );
-				} else if ( layer.type === 'polygon' ) {
-					newLayer = L.polygon( layer.points );
-				} else {
-					// protect against unknown layers
-					return;
-				}
-				haveLayers = true;
-				itemsGroup.addLayer( newLayer );
-				itemCache[ itemsGroup.getLayerId( newLayer ) ] = {
-					type: layer.type,
-					layer: newLayer,
-				};
+
+			meta.features.forEach( function( feature ) {
+
+				L.geoJSON( feature, {
+					pointToLayer: (feature, latlng) => {
+						if ( feature.properties.radius ) {
+							return new L.Circle( latlng, feature.properties.radius );
+						} else {
+							return new L.Marker( latlng );
+						}
+					},
+					onEachFeature: (feature, layer) => {
+						itemsGroup.addLayer(layer);
+					},
+				} );
 			} );
 			// don't jump around if we have a defined location
-			if ( haveLayers && this.props.location === undefined ) {
+			if ( itemsGroup.getLayers().length && this.props.location === undefined ) {
 				map.fitBounds( itemsGroup.getBounds(), { animate: false } );
 			}
 		} catch ( e ) {
@@ -181,26 +173,15 @@ class MapComponentBase extends Component {
 			map.addControl( drawControl );
 
 			const saveLayers = function() {
-				const out = [];
+				const out = { type: "FeatureCollection", features: [] };
 
-				itemCache.forEach( function( l ) {
-					if ( l.type === 'circle' ) {
-						out.push( {
-							type: l.type,
-							point: l.layer.getLatLng(),
-							radius: l.layer.getRadius(),
-						} );
-					} else if ( l.type === 'marker' ) {
-						out.push( {
-							type: l.type,
-							point: l.layer.getLatLng(),
-						} );
-					} else if ( l.type === 'polygon' ) {
-						out.push( {
-							type: l.type,
-							points: l.layer.getLatLngs(),
-						} );
+				itemsGroup.eachLayer( function( l ) {
+					const json = l.toGeoJSON();
+
+					if ( l instanceof L.Circle ) {
+						json.properties.radius = l.getRadius();
 					}
+					out.features.push(json);
 				} );
 				self.props.onChange( JSON.stringify( out ) );
 			};
@@ -208,11 +189,6 @@ class MapComponentBase extends Component {
 			map.on( L.Draw.Event.CREATED, function( event ) {
 				const layer = event.layer;
 				itemsGroup.addLayer( layer );
-
-				itemCache[ itemsGroup.getLayerId( layer ) ] = {
-					type: event.layerType,
-					layer,
-				};
 				saveLayers();
 			} );
 			map.on( L.Draw.Event.EDITED, function() {
@@ -221,7 +197,6 @@ class MapComponentBase extends Component {
 			map.on( L.Draw.Event.DELETED, function( event ) {
 				const layers = event.layers;
 				layers.eachLayer( function( layer ) {
-					delete itemCache[ itemsGroup.getLayerId( layer ) ];
 					itemsGroup.removeLayer( layer );
 				} );
 				saveLayers();
