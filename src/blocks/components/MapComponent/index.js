@@ -1,3 +1,11 @@
+/**
+ * Implements the Map component.
+ *
+ * @link   https://github.com/stephanmantler/stepman-geo-post
+ * @file   Implements the Map component.
+ * @author Stephan Mantler
+ * @since  1.0.0
+ */
 'use strict';
 
 import { Component } from '@wordpress/element';

@@ -2,7 +2,7 @@
 /**
  * Main plugin class file.
  *
- * @package WordPress Plugin Template/Includes
+ * @package stepman-geo-post/Includes
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class stepman_geo_post {
 
 	/**
-	 * The single instance of local_core.
+	 * The single instance of stepman_geo_post.
 	 *
 	 * @var     object
 	 * @access  private
@@ -26,6 +26,8 @@ class stepman_geo_post {
 	/**
 	 * The main plugin file.
 	 *
+	 * Typically this would be `../wp-content/plugins/<plugin_name>/index.php`.
+	 *
 	 * @var     string
 	 * @access  public
 	 * @since   1.0.0
@@ -34,6 +36,8 @@ class stepman_geo_post {
 
 	/**
 	 * The main plugin directory.
+	 *
+	 * This should be `../wp-content/plugins/<plugin_name>/`.
 	 *
 	 * @var     string
 	 * @access  public
@@ -59,7 +63,17 @@ class stepman_geo_post {
 	 */
 	public $assets_url;
 
-
+	/**
+	 * Access the single instance of this class.
+	 *
+	 * Creates or provides the single instance of this plugin class if it had
+	 * already been creted in a prior invocation.
+	 *
+	 * @ignore
+	 *
+	 * @since   1.0.0
+	 * @return  stepman_geo_post The single instance.
+	 */
 	public static function instance( $file = '', $version = '1.0.0' ) {
 		if ( is_null( self::$_instance ) ) {
 			self::$_instance = new self( $file, $version );
@@ -68,7 +82,16 @@ class stepman_geo_post {
 		return self::$_instance;
 	} // End instance ()
 
-
+	/**
+	 * Constructor.
+	 *
+	 * Initializes the plugin and registers all actions for plugin lifetime
+	 * management.
+	 *
+	 * @since   1.0.0
+	 * @param   string $file     Main plugin filename.
+	 * @param   string $version  Plugin version.
+	 */
 	public function __construct( $file = '', $version = '1.0.0' ) {
 
 		// Load plugin environment variables.
@@ -93,7 +116,15 @@ class stepman_geo_post {
     add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 
   }
-  
+	
+	/**
+	 * Register front-end scripts.
+	 *
+	 * Register and enqueue all scripts and assets required for frontend display.
+	 * Runs in the `wp_enqueue_scripts` action.
+	 *
+	 * @since   1.0.0
+	 */
   function enqueue_scripts() {
 		$asset_file = include( $this->assets_dir . '/frontend.asset.php');
 		wp_register_script( 'stepman_frontend_scripts',
@@ -114,10 +145,26 @@ class stepman_geo_post {
 		
 	}
 
+	/**
+	 * Register post metadata.
+	 *
+	 * Register our geolocation metadata for all post types.
+	 * Runs in the `init` action.
+	 *
+	 * @since   1.0.0
+	 */
   public function register_meta_fields() {
     register_post_meta('', 'stepman_meta_geolocation', array('show_in_rest' => true, 'single' => true, 'type' => 'string'));
   }
 
+	/**
+	 * Register backend-end scripts.
+	 *
+	 * Register and enqueue all scripts and assets required for the admin interface.
+	 * Runs in the `admin_enqueue_scripts` action.
+	 *
+	 * @since   1.0.0
+	 */
   function admin_enqueue_scripts() {
  		$asset_file = include( $this->assets_dir . '/admin.asset.php');
     wp_register_style('stepman_admin_style',
