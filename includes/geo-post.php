@@ -112,11 +112,47 @@ class stepman_geo_post {
     // add meta info
     add_action( 'init', array( $this, 'register_meta_fields' ) );
 
+    // register GeoJSON files
+    add_filter( 'upload_mimes', array( $this, 'register_mime_types' ), 1, 1 );
+    add_filter( 'wp_check_filetype_and_ext', array( $this, 'check_filetype_and_ext' ), 10, 4 );
+
     add_action( 'admin_init', array( $this, 'admin_init' ) );
     add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 
   }
-	
+
+  /**
+   * Extend allowed MIME types
+   *
+   * Register GeoJSON as an additional supported MIME type.
+   *
+   * @since   1.0.0
+   */
+  function register_mime_types( $mime_types ) {
+    // this should actually be application/json or application/geo+json
+    $mime_types['geojson'] = 'application/geo+json';
+    error_log("registering geojson mime type");
+    return $mime_types;
+  }
+
+  /**
+   * Detect geojson file uploads
+   *
+   * GeoJSON files are uploaded with a notoriously large variety of mime types,
+   * from text/plain to application/octet-stream, application/json, or
+   * application/geo+json. We normalize this based on the filename.
+   *
+   * @since   1.0.0
+   */
+  function check_filetype_and_ext( $types, $file, $filename, $mimes ) {
+    if( false !== strpos( $filename, '.geojson' ) )
+    {
+        $types['ext'] = 'geojson';
+        $types['type'] = 'application/geo+json';
+    }
+    return $types;
+}
+
 	/**
 	 * Register front-end scripts.
 	 *
@@ -132,9 +168,9 @@ class stepman_geo_post {
 			$asset_file['dependencies'],
 			$asset_file['version'],
 			true);
-			
+
 		wp_enqueue_script( 'stepman_frontend_scripts' );
-		
+
  		$asset_file = include( $this->assets_dir . '/style.asset.php');
     wp_register_style('stepman_style',
 		  esc_url( $this->assets_url ) . 'style.css',
@@ -142,7 +178,7 @@ class stepman_geo_post {
       $asset_file['version']);
 
     wp_enqueue_style('stepman_style');
-		
+
 	}
 
 	/**
