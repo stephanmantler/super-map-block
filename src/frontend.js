@@ -9,7 +9,9 @@
  * @author Stephan Mantler
  * @since  1.0.0
  */
- import L from 'leaflet';
+
+import 'jquery';
+import L from 'leaflet';
 
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-draw/dist/leaflet.draw.css';
