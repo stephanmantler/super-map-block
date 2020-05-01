@@ -139,14 +139,15 @@ class stepman_geo_post {
    * Detect geojson file uploads
    *
    * GeoJSON files are uploaded with a notoriously large variety of mime types,
-   * from text/plain to application/octet-stream, application/json, or
-   * application/geo+json. We normalize this based on the filename.
+   * (text/plain, application/octet-stream, application/json, or
+   * application/geo+json). We normalize this based on the filename.
    *
    * @since   1.0.0
    */
   function check_filetype_and_ext( $types, $file, $filename, $mimes ) {
     if( false !== strpos( $filename, '.geojson' ) )
     {
+	    	// TOOD: ideally we would verify the file actually is a GeoJSON.
         $types['ext'] = 'geojson';
         $types['type'] = 'application/geo+json';
     }
@@ -189,7 +190,7 @@ class stepman_geo_post {
 	 *
 	 * @since   1.0.0
 	 */
-  public function register_meta_fields() {
+  function register_meta_fields() {
     register_post_meta('', 'stepman_meta_geolocation', array('show_in_rest' => true, 'single' => true, 'type' => 'string'));
   }
 
