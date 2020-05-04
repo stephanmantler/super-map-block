@@ -53,7 +53,7 @@ export const settings = {
 			type: "string",
 			default: "",
 		},
-		attachmentIds: {
+		attachments: {
 			type: "array",
 			default: [],
 		},
@@ -71,7 +71,7 @@ export const settings = {
 			};
 		} )( ( props ) => {
 		const {
-			attributes: { width, height, mapLocation, allowInteraction, showMetaShapes, attachmentIds },
+			attributes: { width, height, mapLocation, allowInteraction, showMetaShapes, attachments },
 			layers,
 			className,
 		} = props;
@@ -104,7 +104,7 @@ export const settings = {
 
 		const onSelectAttachments = ( newValue ) => {
 			console.log( newValue.map( x => x.id ) );
-			props.setAttributes( { attachmentIds: newValue.map( x => x.id ) } );
+			props.setAttributes( { attachments: newValue } );
 		};
 
 		const controls = [
@@ -143,9 +143,9 @@ export const settings = {
 							<MediaUpload
 								onSelect={ onSelectAttachments }
 								type="application/geo+json"
-								value={ attachmentIds }
+								value={ attachments }
 								multiple = { true }
-								render={({ open }) => (<><button onClick={open}>Attach GeoJSON File</button>{ attachmentIds }</>)}
+								render={({ open }) => (<><button onClick={open}>Attach GeoJSON File</button>{ attachments.map( x => x.id ) }</>)}
 							/>
 						</MediaUploadCheck>
 					</PanelRow>
@@ -168,7 +168,7 @@ export const settings = {
 					onLocationChange={ onMapChange }
 					allowInteraction={ props.attributes.allowInteraction }
 					layers={ props.attributes.showMetaShapes ? layers : "" }
-					attachments={ props.attributes.attachmentIds }
+					attachments={ props.attributes.attachments }
 				/>
 			</>
 		);
@@ -193,7 +193,7 @@ export const settings = {
 				location={ props.attributes.mapLocation }
 				allowInteraction={ props.attributes.allowInteraction }
 				layers={ props.attributes.layers }
-				attachments={ props.attributes.attachmentIds }
+				attachments={ props.attributes.attachments }
 			/>
 		);
 	},
