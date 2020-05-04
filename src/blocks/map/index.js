@@ -10,7 +10,7 @@
  * @since  1.0.0
  */
 
-import { InspectorControls } from '@wordpress/block-editor';
+import { InspectorControls, MediaUploadCheck, MediaUpload } from '@wordpress/block-editor';
 import { TextControl, PanelBody, PanelRow, ToggleControl } from '@wordpress/components';
 import { MapComponent } from '../components';
 import { withSelect } from '@wordpress/data';
@@ -52,7 +52,11 @@ export const settings = {
 		layers: {
 			type: "string",
 			default: "",
-		}
+		},
+		attachmentIds: {
+			type: "array",
+			default: [],
+		},
 	},
 	/*
 	 * Creates the edit (backend) representation of this block.
@@ -61,13 +65,13 @@ export const settings = {
 	 * them in an attribute for later use in `save()`.
 	 */
 	edit: withSelect( ( select ) => {
-		return { 
+		return {
 			layers: select( 'core/editor' ).getEditedPostAttribute( 'meta' )
 			.stepman_meta_geolocation,
 			};
 		} )( ( props ) => {
 		const {
-			attributes: { width, height, mapLocation, allowInteraction, showMetaShapes },
+			attributes: { width, height, mapLocation, allowInteraction, showMetaShapes, attachmentIds },
 			layers,
 			className,
 		} = props;
@@ -98,6 +102,11 @@ export const settings = {
 			props.setAttributes( { showMetaShapes: newValue } );
 		};
 
+		const onSelectAttachments = ( newValue ) => {
+			console.log( newValue.map( x => x.id ) );
+			props.setAttributes( { attachmentIds: newValue.map( x => x.id ) } );
+		};
+
 		const controls = [
 			<InspectorControls key="stepman_map_controls">
 				<PanelBody title="Map Settings">
@@ -124,10 +133,21 @@ export const settings = {
 					</PanelRow>
 					<PanelRow>
 						<ToggleControl
-							label="show annotation shapes"
+							label="show global annotation shapes"
 							checked={ showMetaShapes }
 							onChange={ onToggleShowMeta }
 						/>
+					</PanelRow>
+					<PanelRow>
+						<MediaUploadCheck>
+							<MediaUpload
+								onSelect={ onSelectAttachments }
+								type="application/geo+json"
+								value={ attachmentIds }
+								multiple = { true }
+								render={({ open }) => (<><button onClick={open}>Attach GeoJSON File</button>{ attachmentIds }</>)}
+							/>
+						</MediaUploadCheck>
 					</PanelRow>
 				</PanelBody>
 			</InspectorControls>,
@@ -148,10 +168,10 @@ export const settings = {
 					onLocationChange={ onMapChange }
 					allowInteraction={ props.attributes.allowInteraction }
 					layers={ props.attributes.showMetaShapes ? layers : "" }
+					attachments={ props.attributes.attachmentIds }
 				/>
 			</>
 		);
-		
 	}),
 	/*
 	 * Produces a serializable representation of this block.
@@ -173,6 +193,7 @@ export const settings = {
 				location={ props.attributes.mapLocation }
 				allowInteraction={ props.attributes.allowInteraction }
 				layers={ props.attributes.layers }
+				attachments={ props.attributes.attachmentIds }
 			/>
 		);
 	},
