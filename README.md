@@ -30,7 +30,11 @@ The block can be found in the Embeds section, or just search for "Map Block". Yo
 
 Adding multiple map blocks works as expected.
 
-## Integrating with other themes or plugins
+## GeoJSON media
+
+This plugin also extends the WordPress media library to support GeoJSON files and display them in the map view (this, too currently requires a page refresh before the preview shows the GeoJSON file).
+
+## Integrating with other themes, plugins, and external software
 
 Annotations are stored as a serialized [GeoJSON](https://geojson.org) `FeatureCollection` in the `stepman_meta_geolocation` field. GeoJSON does not directly support circles; those are therefore stored as points with an additional `radius` property:
 
@@ -76,6 +80,8 @@ Display styles can be changed by providing a `style` property as well, overridin
     "coordinates": [ -15.112295, 64.289798 ]
 }
 ```
+
+Both features (drawing circles from point features and custom, per-feature draw styles) are also supported for GeoJSON files loaded from the WordPress media library.
 
 ## License
 
