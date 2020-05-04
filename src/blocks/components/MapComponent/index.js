@@ -54,6 +54,10 @@ class MapComponentBase extends Component {
 			divprops[ 'data-poslat' ] = this.props.location.pointY;
 			divprops[ 'data-zoom' ] = this.props.location.zoom;
 		}
+		let attachments = [];
+		if ( this.props.attachments !== undefined) {
+			attachments = this.props.attachments.map( (attachment, index) => <div key={ attachment.id } id={ "data_layer_" + index } className="data-layer" data-geojson-url={ attachment.url }></div> );
+		}
 		return (
 			<div
 				className="stepman_geo_location_map"
@@ -63,7 +67,7 @@ class MapComponentBase extends Component {
 				data-token={ this.props.accessToken || null }
 				data-interactive={ this.props.allowInteraction }
 				data-layers={this.props.layers}
-			></div>
+			>{ attachments }</div>
 		);
 	}
 
