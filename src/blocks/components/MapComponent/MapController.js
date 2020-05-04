@@ -9,6 +9,8 @@
  * @since	 1.0.0
  */
 
+/*global jQuery */
+
 import L from 'leaflet';
 import 'proj4leaflet';
 

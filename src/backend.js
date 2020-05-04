@@ -1,5 +1,7 @@
 'use strict';
 
+/*global jQuery */
+
 import { MapSidebar } from './blocks/editor-sidebar';
 
 MapSidebar.register( window.stepmanMapboxAccessToken );
