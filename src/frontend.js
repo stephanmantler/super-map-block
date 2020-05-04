@@ -4,24 +4,25 @@
  * Provides functionality that is specific to the frontend map display (disabled
  * interaction, etc).
  *
- * @link   https://github.com/stephanmantler/stepman-geo-post
  * @file   Implements frontend map integration.
  * @author Stephan Mantler
  * @since  1.0.0
  */
 
-import 'jquery';
-import L from 'leaflet';
-
+//import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-draw/dist/leaflet.draw.css';
 
-import { hookMap, parseGeoJSON } from './blocks/components/MapComponent/MapController.js';
+import {
+	hookMap,
+	parseGeoJSON,
+} from './blocks/components/MapComponent/MapController.js';
 
 jQuery( document ).ready(
 	( function() {
 		jQuery( '.stepman_geo_location_map' ).each( function( index, elem ) {
-			const allowInteraction = ( elem.getAttribute( 'data-interactive' ) === 'true' );
+			const allowInteraction =
+				elem.getAttribute( 'data-interactive' ) === 'true';
 
 			const mapConfig = {
 				zoomControl: allowInteraction,
@@ -36,7 +37,7 @@ jQuery( document ).ready(
 
 			const map = hookMap( elem, mapConfig );
 
-			if ( !allowInteraction ) {
+			if ( ! allowInteraction ) {
 				const zoom = map.getZoom();
 				map.setMinZoom( zoom );
 				map.setMaxZoom( zoom );
@@ -45,7 +46,7 @@ jQuery( document ).ready(
 			const layers = elem.getAttribute( 'data-layers' );
 
 			// if no layers, we're done.
-			if ( !layers || layers === "" ) {
+			if ( ! layers || layers === '' ) {
 				return;
 			}
 			const itemsGroup = parseGeoJSON( layers );

@@ -4,11 +4,11 @@
  * Provides some additional functionality for initialization and handling
  * of the map display layer.
  *
- * @link	 https://github.com/stephanmantler/stepman-geo-post
  * @file	 Provides map integration glue code.
  * @author Stephan Mantler
  * @since	 1.0.0
  */
+
 import L from 'leaflet';
 import 'proj4leaflet';
 
@@ -28,37 +28,37 @@ function convertGeoJSON( meta ) {
 	const itemsGroup = new L.FeatureGroup();
 
 	L.Proj.geoJson( meta, {
-		pointToLayer: (feature, latlng) => {
+		pointToLayer: ( feature, latlng ) => {
 			if ( feature.properties.radius ) {
 				return new L.Circle( latlng, feature.properties.radius );
-			} else {
-				return new L.Marker( latlng );
 			}
+			return new L.Marker( latlng );
 		},
-		onEachFeature: (feature, layer) => {
-			itemsGroup.addLayer(layer);
+
+		onEachFeature: ( feature, layer ) => {
+			itemsGroup.addLayer( layer );
 		},
-		style: (feature) => {
+
+		style: ( feature ) => {
 			if ( feature.properties.style ) {
 				return feature.properties.style;
-			} else {
-				return { /* default */ };
 			}
+			return {
+				/* default */
+			};
 		},
 	} );
-	
-	return itemsGroup; 
+
+	return itemsGroup;
 }
 
 export function parseGeoJSON( data ) {
-
 	// populate itemsGroup with existing data
 	try {
 		const meta = JSON.parse( data );
 		return convertGeoJSON( meta );
 	} catch ( e ) {
 		// fail silent
-		console.log("WARNING: GeoJSON parsing failed, not all layers will show");
 	}
 
 	// return an empty group in case of failure.
@@ -67,8 +67,10 @@ export function parseGeoJSON( data ) {
 
 export function hookMap( elem, mapConfig ) {
 	// collect extra layers before attaching the map, just in case the div gets cobbled with other elements
-	const extraLayers = jQuery(elem).find(".data-layer").map( (index, div) => div.getAttribute( "data-geojson-url" ) )
-	
+	const extraLayers = jQuery( elem )
+		.find( '.data-layer' )
+		.map( ( index, div ) => div.getAttribute( 'data-geojson-url' ) );
+
 	const map = L.map( elem, mapConfig ).setView( [ 51.505, -0.09 ], 13 );
 
 	L.control.attribution( { position: 'bottomright' } ).addTo( map );
@@ -89,22 +91,18 @@ export function hookMap( elem, mapConfig ) {
 			}
 		).addTo( map );
 	} else {
-		L.tileLayer(
-			'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png ',
-			{
-				attribution:
-					'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
-			}
-		).addTo( map );
+		L.tileLayer( 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png ', {
+			attribution:
+				'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+		} ).addTo( map );
 	}
-	
-	extraLayers.each( (index, layer) => {
-		 jQuery.getJSON( layer, data => {
-			const group = convertGeoJSON(data);
+
+	extraLayers.each( ( index, layer ) => {
+		jQuery.getJSON( layer, ( data ) => {
+			const group = convertGeoJSON( data );
 			group.addTo( map );
-		
-		 }).fail( function() { console.log("boo!"); } );
-	})
+		} );
+	} );
 
 	const px = elem.getAttribute( 'data-poslon' );
 	const py = elem.getAttribute( 'data-poslat' );

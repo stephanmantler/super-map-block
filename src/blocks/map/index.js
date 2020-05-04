@@ -4,14 +4,22 @@
  * Declares the settings and basing scaffolding for the map display block.
  * Most of the heavy lifting is done in the `<MapControl>` component.
  *
- * @link   https://github.com/stephanmantler/stepman-geo-post
  * @file   Provides registration information for the map display block.
  * @author Stephan Mantler
  * @since  1.0.0
  */
 
-import { InspectorControls, MediaUploadCheck, MediaUpload } from '@wordpress/block-editor';
-import { TextControl, PanelBody, PanelRow, ToggleControl } from '@wordpress/components';
+import {
+	InspectorControls,
+	MediaUploadCheck,
+	MediaUpload,
+} from '@wordpress/block-editor';
+import {
+	TextControl,
+	PanelBody,
+	PanelRow,
+	ToggleControl,
+} from '@wordpress/components';
 import { MapComponent } from '../components';
 import { withSelect } from '@wordpress/data';
 
@@ -50,11 +58,11 @@ export const settings = {
 			default: true,
 		},
 		layers: {
-			type: "string",
-			default: "",
+			type: 'string',
+			default: '',
 		},
 		attachments: {
-			type: "array",
+			type: 'array',
 			default: [],
 		},
 	},
@@ -67,19 +75,25 @@ export const settings = {
 	edit: withSelect( ( select ) => {
 		return {
 			layers: select( 'core/editor' ).getEditedPostAttribute( 'meta' )
-			.stepman_meta_geolocation,
-			};
-		} )( ( props ) => {
+				.stepman_meta_geolocation,
+		};
+	} )( ( props ) => {
 		const {
-			attributes: { width, height, mapLocation, allowInteraction, showMetaShapes, attachments },
+			attributes: {
+				width,
+				height,
+				mapLocation,
+				allowInteraction,
+				showMetaShapes,
+				attachments,
+			},
 			layers,
-			className,
 		} = props;
 
 		if ( showMetaShapes ) {
-			props.setAttributes( { layers: layers } );
+			props.setAttributes( { layers } );
 		} else {
-			props.setAttributes( { layers: "" } );
+			props.setAttributes( { layers: '' } );
 		}
 
 		const onChangeWidth = ( newValue ) => {
@@ -103,7 +117,6 @@ export const settings = {
 		};
 
 		const onSelectAttachments = ( newValue ) => {
-			console.log( newValue.map( x => x.id ) );
 			props.setAttributes( { attachments: newValue } );
 		};
 
@@ -144,8 +157,15 @@ export const settings = {
 								onSelect={ onSelectAttachments }
 								type="application/geo+json"
 								value={ attachments }
-								multiple = { true }
-								render={({ open }) => (<><button onClick={open}>Attach GeoJSON File</button>{ attachments.map( x => x.id ) }</>)}
+								multiple={ true }
+								render={ ( { open } ) => (
+									<>
+										<button onClick={ open }>
+											Attach GeoJSON File
+										</button>
+										{ attachments.map( ( x ) => x.id ) }
+									</>
+								) }
 							/>
 						</MediaUploadCheck>
 					</PanelRow>
@@ -154,8 +174,8 @@ export const settings = {
 		];
 
 		const style = {
-			width: props.attributes.width,
-			height: props.attributes.height,
+			width,
+			height,
 		};
 
 		return (
@@ -164,15 +184,15 @@ export const settings = {
 				<MapComponent
 					accessToken={ window.stepmanMapboxAccessToken }
 					style={ style }
-					location={ props.attributes.mapLocation }
+					location={ mapLocation }
 					onLocationChange={ onMapChange }
-					allowInteraction={ props.attributes.allowInteraction }
-					layers={ props.attributes.showMetaShapes ? layers : "" }
-					attachments={ props.attributes.attachments }
+					allowInteraction={ allowInteraction }
+					layers={ showMetaShapes ? layers : '' }
+					attachments={ attachments }
 				/>
 			</>
 		);
-	}),
+	} ),
 	/*
 	 * Produces a serializable representation of this block.
 	 *

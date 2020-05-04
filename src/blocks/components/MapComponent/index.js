@@ -1,7 +1,6 @@
 /**
  * Implements the backend Map component.
  *
- * @link   https://github.com/stephanmantler/stepman-geo-post
  * @file   Implements the Map component.
  * @author Stephan Mantler
  * @since  1.0.0
@@ -55,8 +54,15 @@ class MapComponentBase extends Component {
 			divprops[ 'data-zoom' ] = this.props.location.zoom;
 		}
 		let attachments = [];
-		if ( this.props.attachments !== undefined) {
-			attachments = this.props.attachments.map( (attachment, index) => <div key={ attachment.id } id={ "data_layer_" + index } className="data-layer" data-geojson-url={ attachment.url }></div> );
+		if ( this.props.attachments !== undefined ) {
+			attachments = this.props.attachments.map( ( attachment, index ) => (
+				<div
+					key={ attachment.id }
+					id={ 'data_layer_' + index }
+					className="data-layer"
+					data-geojson-url={ attachment.url }
+				></div>
+			) );
 		}
 		return (
 			<div
@@ -66,8 +72,10 @@ class MapComponentBase extends Component {
 				style={ this.props.style }
 				data-token={ this.props.accessToken || null }
 				data-interactive={ this.props.allowInteraction }
-				data-layers={this.props.layers}
-			>{ attachments }</div>
+				data-layers={ this.props.layers }
+			>
+				{ attachments }
+			</div>
 		);
 	}
 
@@ -90,9 +98,12 @@ class MapComponentBase extends Component {
 		itemsGroup.addTo( map );
 
 		// don't jump around if we have a defined location
-    if ( itemsGroup.getLayers().length && this.props.location === undefined ) {
-      map.fitBounds( itemsGroup.getBounds(), { animate: false } );
-    }
+		if (
+			itemsGroup.getLayers().length &&
+			this.props.location === undefined
+		) {
+			map.fitBounds( itemsGroup.getBounds(), { animate: false } );
+		}
 
 		// show edit controls, if enabled
 		if ( this.props.allowEdit === true ) {
@@ -107,7 +118,7 @@ class MapComponentBase extends Component {
 			const self = this;
 
 			const saveLayers = function() {
-				const out = { type: "FeatureCollection", features: [] };
+				const out = { type: 'FeatureCollection', features: [] };
 
 				itemsGroup.eachLayer( function( l ) {
 					const json = l.toGeoJSON();
@@ -115,7 +126,7 @@ class MapComponentBase extends Component {
 					if ( l instanceof L.Circle ) {
 						json.properties.radius = l.getRadius();
 					}
-					out.features.push(json);
+					out.features.push( json );
 				} );
 				self.props.onChange( JSON.stringify( out ) );
 			};
