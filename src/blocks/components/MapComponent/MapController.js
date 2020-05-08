@@ -117,6 +117,15 @@ function rebuildMap( map, elem ) {
 				'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
 		} ).addTo( map );
 	}
+	
+	const customLayer = elem.getAttribute( 'data-overlay' );
+	const customlayerAttribution = elem.getAttribute( 'data-overlay-attribution' );
+	
+	if ( customLayer && customlayerAttribution && customLayer.length > 0 ) {
+		L.tileLayer(
+			customLayer, { attribution: customlayerAttribution }
+		).addTo( map );
+	} 
 
 	extraLayers.each( ( index, layer ) => {
 		jQuery.getJSON( layer, ( data ) => {
