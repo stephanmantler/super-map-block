@@ -26,13 +26,14 @@ The block can be found in the Embeds section, or just search for "Map Block". Yo
 
 ### Options
 * Interaction (pan/zoom) on the front end can be disabled (but remains enabled in the editor).
-* Post geolocation annotations can be optionally displayed as well (requires page refresh for the preview to update).
+* Post geolocation annotations can be optionally displayed as well.
+* You can specify a custom WMTS URL & attribution to display as a raster overlay above the base map.
 
 Adding multiple map blocks works as expected.
 
 ## GeoJSON media
 
-This plugin also extends the WordPress media library to support GeoJSON files and display them in the map view (this, too currently requires a page refresh before the preview shows the GeoJSON file).
+This plugin also extends the WordPress media library to support GeoJSON files and display them in the map view.
 
 ## Integrating with other themes, plugins, and external software
 
