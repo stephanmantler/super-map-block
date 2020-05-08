@@ -1,6 +1,6 @@
 'use strict';
 
-/*global jQuery */
+import 'jquery';
 
 import { MapSidebar } from './blocks/editor-sidebar';
 
