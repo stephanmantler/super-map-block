@@ -75,10 +75,12 @@ export function hookMap( elem, mapConfig ) {
 	const map = L.map( elem, mapConfig ).setView( [ 51.505, -0.09 ], 13 );
 
 	L.control.attribution( { position: 'bottomright' } ).addTo( map );
+	
+	const mapStyle = elem.getAttribute( 'data-mapstyle' );
 
 	const accessToken = elem.getAttribute( 'data-token' );
-
-	if ( accessToken !== null && accessToken.length > 0 ) {
+	
+	if ( mapStyle === 'MapBox' && accessToken !== null && accessToken.length > 0 ) {
 		L.tileLayer(
 			'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
 			{
@@ -91,7 +93,13 @@ export function hookMap( elem, mapConfig ) {
 				accessToken,
 			}
 		).addTo( map );
+	} else if ( mapStyle === 'OpenTopoMap' ) {
+		L.tileLayer( 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+			attribution:
+				'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org/">SRTM</a> | map style: © <a href="https://opentopomap.org/">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
+		} ).addTo( map );
 	} else {
+		// OSM is our fallback
 		L.tileLayer( 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png ', {
 			attribution:
 				'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',

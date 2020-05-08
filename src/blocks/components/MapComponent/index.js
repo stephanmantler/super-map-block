@@ -64,13 +64,26 @@ class MapComponentBase extends Component {
 				></div>
 			) );
 		}
+		let mapStyle = this.props.mapStyle
+		let accessToken = this.props.accessToken || null
+		// sanity check map style against access token.
+		if ( mapStyle === 'MapBox' ) {
+			if ( ! accessToken || accessToken.length == 0 ) {
+				mapStyle = "OpenStreetMap"
+			}
+		} else {
+//			accessToken = null
+		}
 		return (
 			<div
 				className="stepman_geo_location_map"
 				ref={ this.bindContainer }
 				{ ...divprops }
 				style={ this.props.style }
-				data-token={ this.props.accessToken || null }
+				data-mapstyle={ this.props.mapStyle }
+				data-token={ accessToken }
+				data-overlay={ this.props.customOverlay }
+				data-overlay-attribution={ this.props.customOverlayAttribution }
 				data-interactive={ this.props.allowInteraction }
 				data-layers={ this.props.layers }
 			>

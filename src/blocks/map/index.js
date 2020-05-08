@@ -19,6 +19,7 @@ import {
 	PanelBody,
 	PanelRow,
 	ToggleControl,
+	SelectControl,
 } from '@wordpress/components';
 import { MapComponent } from '../components';
 import { withSelect } from '@wordpress/data';
@@ -57,6 +58,18 @@ export const settings = {
 			type: 'boolean',
 			default: true,
 		},
+		mapStyle: {
+			type: 'string',
+			default: 'OpenStreetMaps',
+		},
+		customOverlay: {
+			type: 'string',
+			default: '',
+		},
+		customOverlayAttribution : {
+			type: 'string',
+			default: '',
+		},
 		layers: {
 			type: 'string',
 			default: '',
@@ -86,6 +99,9 @@ export const settings = {
 				allowInteraction,
 				showMetaShapes,
 				attachments,
+				mapStyle,
+				customOverlay,
+				customOverlayAttribution,
 			},
 			layers,
 		} = props;
@@ -120,6 +136,18 @@ export const settings = {
 			props.setAttributes( { attachments: newValue } );
 		};
 
+		const onChangeMapStyle = ( newValue ) => {
+			props.setAttributes( { mapStyle: newValue } );
+		};
+
+		const onChangeOverlay = ( newValue ) => {
+			props.setAttributes( { customOverlay: newValue } );
+		};
+
+		const onChangeOverlayAttribution = ( newValue ) => {
+			props.setAttributes( { customOverlayAttribution: newValue } );
+		};
+
 		const controls = [
 			<InspectorControls key="stepman_map_controls">
 				<PanelBody title="Map Settings">
@@ -144,13 +172,42 @@ export const settings = {
 							onChange={ onToggleInteraction }
 						/>
 					</PanelRow>
+				</PanelBody>
+				<PanelBody title="Data / Overlays" initialOpen= { false }>
 					<PanelRow>
 						<ToggleControl
-							label="show global annotation shapes"
+							label="show post annotation shapes"
 							checked={ showMetaShapes }
 							onChange={ onToggleShowMeta }
 						/>
 					</PanelRow>
+					<PanelRow>
+						<SelectControl
+							label="Base Map"
+							value={ mapStyle }
+							onChange={ onChangeMapStyle }
+							options={ [
+								{ label: 'OpenStreetMap', value: 'OpenStreetMap' },
+								{ label: 'OpenTopoMap', value: 'OpenTopoMap' },
+								{ label: 'MapBox', value: 'MapBox' },
+								{ label: 'None', value: 'None' },
+							]	}
+						/>
+					</PanelRow>
+					<PanelRow>
+						<TextControl
+							label="Custom Overlay Layer"
+							value= { customOverlay }
+							onChange={ onChangeOverlay }
+						/>
+					</PanelRow>
+					<PanelRow>
+						<TextControl
+							label="Custom Attribution"
+							value= { customOverlayAttribution }
+							onChange={ onChangeOverlayAttribution }
+						/>
+					</PanelRow>					
 					<PanelRow>
 						<MediaUploadCheck>
 							<MediaUpload
@@ -183,6 +240,9 @@ export const settings = {
 				{ controls }
 				<MapComponent
 					accessToken={ window.stepmanMapboxAccessToken }
+					mapStyle = { mapStyle }
+					customOverlay = { customOverlay }
+					customOverlayAttribution = { customOverlayAttribution }
 					style={ style }
 					location={ mapLocation }
 					onLocationChange={ onMapChange }
@@ -214,6 +274,9 @@ export const settings = {
 				allowInteraction={ props.attributes.allowInteraction }
 				layers={ props.attributes.layers }
 				attachments={ props.attributes.attachments }
+				mapStyle = { props.attributes.mapStyle }
+				customOverlay = { props.attributes.customOverlay }
+				customOverlayAttribution = { props.attributes.customOverlayAttribution }
 			/>
 		);
 	},
