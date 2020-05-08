@@ -53,6 +53,12 @@ function convertGeoJSON( meta ) {
 	return itemsGroup;
 }
 
+export function updateMap( map, elem ) {
+	// clean out all layers
+	map.eachLayer( l => l.remove() );
+	rebuildMap ( map, elem );
+}
+
 export function parseGeoJSON( data ) {
 	// populate itemsGroup with existing data
 	try {
@@ -67,15 +73,21 @@ export function parseGeoJSON( data ) {
 }
 
 export function hookMap( elem, mapConfig ) {
-	// collect extra layers before attaching the map, just in case the div gets cobbled with other elements
-	const extraLayers = jQuery( elem )
-		.find( '.data-layer' )
-		.map( ( index, div ) => div.getAttribute( 'data-geojson-url' ) );
 
 	const map = L.map( elem, mapConfig ).setView( [ 51.505, -0.09 ], 13 );
 
 	L.control.attribution( { position: 'bottomright' } ).addTo( map );
 	
+	rebuildMap( map, elem );
+	return map;
+}
+
+function rebuildMap( map, elem ) {
+
+	const extraLayers = jQuery( elem )
+		.find( '.data-layer' )
+		.map( ( index, div ) => div.getAttribute( 'data-geojson-url' ) );
+
 	const mapStyle = elem.getAttribute( 'data-mapstyle' );
 
 	const accessToken = elem.getAttribute( 'data-token' );
@@ -123,5 +135,4 @@ export function hookMap( elem, mapConfig ) {
 		map.setView( [ 64.65, -17.8 ], 5 );
 	}
 
-	return map;
 }

@@ -9,7 +9,7 @@
 
 import { Component } from '@wordpress/element';
 
-import { hookMap, parseGeoJSON } from './MapController.js';
+import { hookMap, updateMap, parseGeoJSON } from './MapController.js';
 
 import L from 'leaflet';
 //import 'leaflet/dist/leaflet.css';
@@ -91,6 +91,20 @@ class MapComponentBase extends Component {
 			</div>
 		);
 	}
+	
+	componentDidUpdate( oldProps ) {
+		// sync map with attribute changes
+		if ( 
+			oldProps.mapStyle !== this.props.mapStyle ||
+			oldProps.allowEdit !== this.props.allowEdit ||
+			oldProps.layers !== this.props.layers ||
+			oldProps.customOverlay !== this.props.customOverlay ||
+			oldProps.customOverlayAttribution !== this.props.customOverlayAttribution
+		) {
+			updateMap( this.map, this.container )
+			this.refreshEditLayers( this.map );
+		}
+	}
 
 	componentDidMount() {
 		const mapConfig = {
@@ -98,15 +112,19 @@ class MapComponentBase extends Component {
 			attributionControl: false,
 		};
 
-		const map = hookMap( this.container, mapConfig );
+		this.map = hookMap( this.container, mapConfig );
 
-		map.on( 'zoomend', ( e ) => {
+		this.map.on( 'zoomend', ( e ) => {
 			this.updatePosition( e.target );
 		} );
-		map.on( 'moveend', ( e ) => {
+		this.map.on( 'moveend', ( e ) => {
 			this.updatePosition( e.target );
 		} );
 
+    this.refreshEditLayers( this.map );
+	}
+	
+	refreshEditLayers( map ) {
 		const itemsGroup = parseGeoJSON( this.props.layers );
 		itemsGroup.addTo( map );
 
