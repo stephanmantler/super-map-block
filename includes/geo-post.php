@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Main plugin class.
  */
-class sma_super_map_block {
+class stepman_super_map_block {
 
 	/**
 	 * The single instance of stepman_geo_post.
@@ -131,7 +131,6 @@ class sma_super_map_block {
   function register_mime_types( $mime_types ) {
     // this should actually be application/json or application/geo+json
     $mime_types['geojson'] = 'application/geo+json';
-    error_log("registering geojson mime type");
     return $mime_types;
   }
 
@@ -313,7 +312,7 @@ class sma_super_map_block {
 	 * @since 1.0.0
 	 */
 	public function __clone() {
-		_doing_it_wrong( __FUNCTION__, esc_html( __( 'Cloning of sma_super_map_block is forbidden' ) ), esc_attr( $this->_version ) );
+		_doing_it_wrong( __FUNCTION__, esc_html( __( 'Cloning of stepman_super_map_block is forbidden' ) ), esc_attr( $this->_version ) );
 
 	} // End __clone ()
 
@@ -324,7 +323,7 @@ class sma_super_map_block {
 	 * @since 1.0.0
 	 */
 	public function __wakeup() {
-		_doing_it_wrong( __FUNCTION__, esc_html( __( 'Unserializing instances of sma_super_map_block is forbidden' ) ), esc_attr( $this->_version ) );
+		_doing_it_wrong( __FUNCTION__, esc_html( __( 'Unserializing instances of stepman_super_map_block is forbidden' ) ), esc_attr( $this->_version ) );
 	} // End __wakeup ()
 
 }

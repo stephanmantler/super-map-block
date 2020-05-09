@@ -25,10 +25,10 @@ import { MapComponent } from '../components';
 import { withSelect } from '@wordpress/data';
 
 // The namespaced block name.
-export const name = 'stepman/post-map-block';
+export const name = 'stepman/super-map-block';
 
 export const settings = {
-	title: 'Map Block',
+	title: 'Super Map Block',
 	description: 'Embed a leaflet map element',
 	icon: 'admin-site-alt3',
 	category: 'embed',
