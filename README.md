@@ -1,9 +1,11 @@
-# stepman-geo-post
-A wordpress plugin to provide geolocation to posts &amp; pages and display maps (optionally with annotations). Uses [leaflet](https://leafletjs.com) for map display. Supports [OpenStreetMap](http://openstreetmap.org) and [Mapbox](https://www.mapbox.com).
+# Super Map Block
+A wordpress plugin to provide geolocation to posts &amp; pages and display interactive maps (optionally with annotations). Uses [leaflet](https://leafletjs.com) for map display. Supports [OpenStreetMap](http://openstreetmap.org), [OpenTopoMap](http://opentopomap.org) and [Mapbox](https://www.mapbox.com) base maps, custom WMTS raster sources and GeoJSON vector overlays.
 
 ## Getting Started
 
-This repository only contains the raw sources and requires a development environment to build the actual plugin. To use Mapbox instead of the default OpenStreetMap tiles, you will need a [Mapbox access token](https://docs.mapbox.com/help/how-mapbox-works/access-tokens/).
+This is the active, unstable development branch.
+
+It only contains the raw sources and requires a development environment to build the actual plugin. To use Mapbox instead of the default OpenStreetMap tiles, you will need a [Mapbox access token](https://docs.mapbox.com/help/how-mapbox-works/access-tokens/).
 
 1. Run `npm install && npm run build` to build.
 1. If all goes well, upload to your server (if not, please let me know!)
@@ -83,6 +85,13 @@ Display styles can be changed by providing a `style` property as well, overridin
 ```
 
 Both features (drawing circles from point features and custom, per-feature draw styles) are also supported for GeoJSON files loaded from the WordPress media library.
+
+## Author
+
+Stephan Mantler
+<[step@stepman.is](mailto:step@stepman.is)>
+
+I am currently looking for remote work.
 
 ## License
 
