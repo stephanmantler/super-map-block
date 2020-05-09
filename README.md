@@ -3,7 +3,7 @@ A wordpress plugin to provide geolocation to posts &amp; pages and display inter
 
 ## Getting Started
 
-This is the active, unstable development branch.
+This is the active, unstable development branch. Use at your own risk - stable releases to the [Wordpress Plugin Directory](https://wordpress.org/plugins/) coming soon!
 
 It only contains the raw sources and requires a development environment to build the actual plugin. To use Mapbox instead of the default OpenStreetMap tiles, you will need a [Mapbox access token](https://docs.mapbox.com/help/how-mapbox-works/access-tokens/).
 
@@ -88,10 +88,8 @@ Both features (drawing circles from point features and custom, per-feature draw 
 
 ## Author
 
-Stephan Mantler
+[Stephan Mantler](http://www.stephanmantler.com/)
 <[step@stepman.is](mailto:step@stepman.is)>
-
-I am currently looking for remote work.
 
 ## License
 

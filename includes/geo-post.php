@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Main plugin class.
  */
-class stepman_geo_post {
+class sma_super_map_block {
 
 	/**
 	 * The single instance of stepman_geo_post.
@@ -244,7 +244,7 @@ class stepman_geo_post {
 	 */
   function settings_section_mapbox() {
     ?>
-    This plugin shows OpenStreetMap tiles by default. To use Mapbox, request a <a href="https://docs.mapbox.com/help/how-mapbox-works/access-tokens/">Mapbox access token</a> and enter it below.
+    Super Map Block can show OpenStreetMap, OpenTopoMap and Mapbox tiles. To use Mapbox, you will need to request a <a href="https://docs.mapbox.com/help/how-mapbox-works/access-tokens/">Mapbox access token</a> and enter it below.
     <?php
   }
 
@@ -272,10 +272,10 @@ class stepman_geo_post {
 	 */
   function admin_menu() {
       add_plugins_page(
-          'stepman\'s global plugin settings',
-          'stepman',
+          'Super Map Block global plugin settings',
+          'Super Map Block',
           'manage_options',
-          'stepman',
+          'super-map-block',
           array( $this, 'options_page_html' ),
           20
       );
@@ -313,7 +313,7 @@ class stepman_geo_post {
 	 * @since 1.0.0
 	 */
 	public function __clone() {
-		_doing_it_wrong( __FUNCTION__, esc_html( __( 'Cloning of stepman_geo_post is forbidden' ) ), esc_attr( $this->_version ) );
+		_doing_it_wrong( __FUNCTION__, esc_html( __( 'Cloning of sma_super_map_block is forbidden' ) ), esc_attr( $this->_version ) );
 
 	} // End __clone ()
 
@@ -324,7 +324,7 @@ class stepman_geo_post {
 	 * @since 1.0.0
 	 */
 	public function __wakeup() {
-		_doing_it_wrong( __FUNCTION__, esc_html( __( 'Unserializing instances of stepman_geo_post is forbidden' ) ), esc_attr( $this->_version ) );
+		_doing_it_wrong( __FUNCTION__, esc_html( __( 'Unserializing instances of sma_super_map_block is forbidden' ) ), esc_attr( $this->_version ) );
 	} // End __wakeup ()
 
 }
