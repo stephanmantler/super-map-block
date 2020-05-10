@@ -1,7 +1,7 @@
 {
-  "name": "stepman-geo-post",
+  "name": "super-map-block",
   "version": "1.0.0",
-  "description": "Geotag any Wordpress post or page",
+  "description": "Flexible maps and universal geolocation support for WordPress posts and pages",
   "main": "build/backend.js",
   "scripts": {
     "build": "wp-scripts build --output-path=build/ --display-modules",
@@ -14,7 +14,8 @@
     "lint:md:docs": "wp-scripts lint-md-docs",
     "lint:md:js": "wp-scripts lint-md-js",
     "lint:pkg-json": "wp-scripts lint-pkg-json",
-    "packages-update": "wp-scripts packages-update"
+    "packages-update": "wp-scripts packages-update",
+    "make-package": "node utils/make-package.js"
   },
   "author": "step",
   "license": "GPL-3.0-or-later",
@@ -29,7 +30,8 @@
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.7.0",
     "resolve-url-loader": "^3.1.1",
-    "sass-loader": "^8.0.2"
+    "sass-loader": "^8.0.2",
+    "tar": "^6.0.2"
   },
   "dependencies": {
     "leaflet": "^1.6.0",
