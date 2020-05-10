@@ -100,7 +100,7 @@ class stepman_super_map_block {
 		$this->assets_dir = trailingslashit( $this->dir ) . 'build';
 		$this->assets_url = esc_url( trailingslashit( plugins_url( '/build/', $this->file ) ) );
 
-		register_activation_hook( $this->file, array( $this, 'install' ) );
+		//register_activation_hook( $this->file, array( $this, 'install' ) );
 
 		// Load frontend JS & CSS.
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 10 );

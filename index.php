@@ -15,7 +15,7 @@
 	exit;
  }
  
-require_once 'includes/geo-post.php';
+require_once 'includes/super-map-block.php';
 
 function stepman_init_super_map_block() {
 	$instance = stepman_super_map_block::instance( __FILE__ );
