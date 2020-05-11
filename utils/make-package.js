@@ -30,5 +30,5 @@ tar.c(
 		prefix: 'super-map-block',
 		filter: (path, stat) => { for ( const re of ignore_re ) { if ( re.test(path) ) { return false; } }; return true; },
 	},
-	['index.php','build/','LICENSE','README.txt', 'includes/','doc/','languages/' ]
+	['index.php','build/','LICENSE','README.txt', 'includes/','assets/','languages/' ]
 ).then( _ => { console.log( "Created package at " + output + " ." ) } );
