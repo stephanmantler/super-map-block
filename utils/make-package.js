@@ -21,11 +21,14 @@ if ( fs.existsSync( output ) ) {
 	process.exit(-1);
 }
 
+const ignore_re = [ /.po$/, /~$/ ];
+
 tar.c(
 	{
 		gzip: true,
 		file: output,
 		prefix: 'super-map-block',
+		filter: (path, stat) => { for ( const re of ignore_re ) { if ( re.test(path) ) { return false; } }; return true; },
 	},
-	['index.php','build/','LICENSE','README.txt', 'includes/','doc/' ]
+	['index.php','build/','LICENSE','README.txt', 'includes/','doc/','languages/' ]
 ).then( _ => { console.log( "Created package at " + output + " ." ) } );
