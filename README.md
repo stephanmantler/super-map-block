@@ -14,7 +14,7 @@ It only contains the raw sources and requires a development environment to build
 
 ## Locating Posts & Pages
 
-![](doc/media/locate-page.gif)
+![](assets/screenshot-2.gif)
 
 After installing and activating the plugin, there will be a new sidebar in your Gutenberg editor (look for the globe icon in the top right corner). If it does not show up directly, you can access it through the `More tools and options` section (three vertical dots) at `Plugins` -> `Geolocation`.
 
@@ -22,7 +22,7 @@ You can place as many polygons, circles and/or markers on the map as you see fit
 
 ## Embedding maps in page content
 
-![](doc/media/gutenberg-block.gif)
+![](assets/screenshot-1.gif)
 
 The block can be found in the Embeds section, or just search for "Map Block". You can pan / zoom the map to a suitable location and this will be stored once you hit the save / update button. The sidebar gives you control over how much space the map block is allowed to take up (recommended settings are 100% width, and a suitable vertical size in pixels).
 
