@@ -9,6 +9,7 @@
  * @since  1.0.0
  */
 
+import { __, _n } from '@wordpress/i18n';
 import {
 	InspectorControls,
 	MediaUploadCheck,
@@ -28,8 +29,8 @@ import { withSelect } from '@wordpress/data';
 export const name = 'stepman/super-map-block';
 
 export const settings = {
-	title: 'Super Map Block',
-	description: 'Embed a leaflet map element',
+	title: __('Super Map Block', 'super-map-block'),
+	description: __('Embed a leaflet map element', 'super-map-block'),
 	icon: 'admin-site-alt3',
 	category: 'embed',
 	example: {},
@@ -150,40 +151,40 @@ export const settings = {
 
 		const controls = [
 			<InspectorControls key="stepman_map_controls">
-				<PanelBody title="Map Settings">
+				<PanelBody title={ __("Map Settings", 'super-map-block') } >
 					<PanelRow>
 						<TextControl
-							label="Width"
+							label={ __("Width", 'super-map-block') }
 							value={ width }
 							onChange={ onChangeWidth }
 						/>
 					</PanelRow>
 					<PanelRow>
 						<TextControl
-							label="Height"
+							label={ __("Height", 'super-map-block') }
 							value={ height }
 							onChange={ onChangeHeight }
 						/>
 					</PanelRow>
 					<PanelRow>
 						<ToggleControl
-							label="allow pan & zoom"
+							label={ __("allow pan & zoom", 'super-map-block') }
 							checked={ allowInteraction }
 							onChange={ onToggleInteraction }
 						/>
 					</PanelRow>
 				</PanelBody>
-				<PanelBody title="Data / Overlays" initialOpen= { false }>
+				<PanelBody title={ __("Data / Overlays", 'super-map-block') } initialOpen= { false }>
 					<PanelRow>
 						<ToggleControl
-							label="show post annotation shapes"
+							label={ __("show post annotation shapes", 'super-map-block') }
 							checked={ showMetaShapes }
 							onChange={ onToggleShowMeta }
 						/>
 					</PanelRow>
 					<PanelRow>
 						<SelectControl
-							label="Base Map"
+							label={ __("Base Map", 'super-map-block') }
 							value={ mapStyle }
 							onChange={ onChangeMapStyle }
 							options={ [
@@ -196,14 +197,14 @@ export const settings = {
 					</PanelRow>
 					<PanelRow>
 						<TextControl
-							label="Custom Overlay Layer"
+							label={ __("Custom Overlay Layer", 'super-map-block') }
 							value= { customOverlay }
 							onChange={ onChangeOverlay }
 						/>
 					</PanelRow>
 					<PanelRow>
 						<TextControl
-							label="Custom Attribution"
+							label={ __("Custom Attribution", 'super-map-block') }
 							value= { customOverlayAttribution }
 							onChange={ onChangeOverlayAttribution }
 						/>
@@ -218,9 +219,8 @@ export const settings = {
 								render={ ( { open } ) => (
 									<>
 										<button onClick={ open }>
-											Attach GeoJSON File
+											{ __("Attach GeoJSON", 'super-map-block') }
 										</button>
-										{ attachments.map( ( x ) => x.id ) }
 									</>
 								) }
 							/>

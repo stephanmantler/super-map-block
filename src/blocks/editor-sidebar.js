@@ -4,8 +4,7 @@ import { registerPlugin } from '@wordpress/plugins';
 import { PluginSidebar, PluginSidebarMoreMenuItem } from '@wordpress/edit-post';
 import { PanelBody, TextControl } from '@wordpress/components';
 import { withSelect, withDispatch } from '@wordpress/data';
-// we should use this for i18n.
-//import { __ } from '@wordpress/i18n';
+import { __ } from '@wordpress/i18n';
 import { MapComponent } from './components';
 
 let PluginMetaFields = ( props ) => {
@@ -20,7 +19,7 @@ let PluginMetaFields = ( props ) => {
 					onChange={ ( value ) => props.setMetaFieldValue( value ) }
 				/>
 				<TextControl
-					label="Location data (for debugging)"
+					label={ __("Location data (for debugging)", 'super-map-block') }
 					value={ props.metaFieldValue }
 					onChange={ ( value ) => props.setMetaFieldValue( value ) }
 				/>
@@ -61,7 +60,7 @@ const MapSidebar = {
 						<PluginSidebar
 							name="stepman-geo-location"
 							icon="admin-site-alt3"
-							title="Geolocation"
+							title={ __("Geolocation", 'super-map-block') }
 						>
 							<PluginMetaFields accessToken={ accessToken } />
 						</PluginSidebar>

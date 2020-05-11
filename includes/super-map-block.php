@@ -111,6 +111,7 @@ class stepman_super_map_block {
 
     // add meta info
     add_action( 'init', array( $this, 'register_meta_fields' ) );
+    add_action( 'init', array( $this, 'load_textdomain' ) );
 
     // register GeoJSON files
     add_filter( 'upload_mimes', array( $this, 'register_mime_types' ), 1, 1 );
@@ -118,8 +119,16 @@ class stepman_super_map_block {
 
     add_action( 'admin_init', array( $this, 'admin_init' ) );
     add_action( 'admin_menu', array( $this, 'admin_menu' ) );
-
   }
+
+  /**
+	 * Load plugin text domains
+	 *
+	 * @since   1.0.0
+	 */
+	function load_textdomain() {
+		load_plugin_textdomain( 'super-map-block', FALSE, basename( $this->dir ) . '/languages' );
+	}
 
   /**
    * Extend allowed MIME types
@@ -168,6 +177,8 @@ class stepman_super_map_block {
 			$asset_file['dependencies'],
 			$asset_file['version'],
 			true);
+			
+		wp_set_script_translations( 'stepman_frontend_scripts', 'super-map-block', $this->dir . '/languages' );
 
 		wp_enqueue_script( 'stepman_frontend_scripts' );
 
@@ -216,6 +227,8 @@ class stepman_super_map_block {
 		  $asset_file['dependencies'],
       $asset_file['version']);
 
+		wp_set_script_translations( 'stepman_backend_scripts', 'super-map-block', $this->dir . '/languages' );
+
 		wp_add_inline_script( 'stepman_backend_scripts', "stepmanMapboxAccessToken = '" .get_option('stepman_mapbox_access_token', '') . "';", "before");
     wp_enqueue_script('stepman_backend_scripts');
   }
@@ -231,9 +244,9 @@ class stepman_super_map_block {
   {
     register_setting('stepman', 'stepman_mapbox_access_token', array( 'type' => 'string'));
 
-    add_settings_section('stepman_settings_section_mapbox','Mapbox Integration', array( $this, 'settings_section_mapbox'), 'stepman');
+    add_settings_section('stepman_settings_section_mapbox',__('Mapbox Integration', 'super-map-block'), array( $this, 'settings_section_mapbox'), 'stepman');
 
-    add_settings_field('stepman_settings_field_mapbox', "Access Token", array( $this, 'settings_field_mapbox'), 'stepman', 'stepman_settings_section_mapbox');
+    add_settings_field('stepman_settings_field_mapbox', __('Access Token', 'super-map-block'), array( $this, 'settings_field_mapbox'), 'stepman', 'stepman_settings_section_mapbox');
   }
 
   /**
@@ -241,11 +254,13 @@ class stepman_super_map_block {
    *
 	 * @since   1.0.0
 	 */
-  function settings_section_mapbox() {
-    ?>
-    Super Map Block can show OpenStreetMap, OpenTopoMap and Mapbox tiles. To use Mapbox, you will need to request a <a href="https://docs.mapbox.com/help/how-mapbox-works/access-tokens/">Mapbox access token</a> and enter it below.
-    <?php
-  }
+	 function settings_section_mapbox() {
+		printf(
+			/* translators: %s will be the URL for the Mapbox access token howto. */
+			__('Super Map Block can show OpenStreetMap, OpenTopoMap and Mapbox tiles. To use Mapbox, you will need to request a <a href="%s">Mapbox access token</a> and enter it below.', 'super-map-block'),
+			'https://docs.mapbox.com/help/how-mapbox-works/access-tokens/'
+			);
+	}
 
   /**
    * Displays the mapbox settings field.
@@ -257,7 +272,7 @@ class stepman_super_map_block {
     $setting = get_option('stepman_mapbox_access_token');
     // output the field
     ?>
-    <input type="text" name="stepman_mapbox_access_token" placeholder="paste your access token here" style="font-family:monospace;" size="90" value="<?php echo isset( $setting ) ? esc_attr( $setting ) : '(not set)'; ?>">
+    <input type="text" name="stepman_mapbox_access_token" placeholder="<?php _e('paste your access token here', 'super-map-block') ?>" style="font-family:monospace;" size="90" value="<?php echo isset( $setting ) ? esc_attr( $setting ) : __('(not set)', 'super-map-block'); ?>">
     <?php
   }
 
@@ -271,8 +286,8 @@ class stepman_super_map_block {
 	 */
   function admin_menu() {
       add_plugins_page(
-          'Super Map Block global plugin settings',
-          'Super Map Block',
+          __('Super Map Block global plugin settings', 'super-map-block'),
+          __('Super Map Block', 'super-map-block'),
           'manage_options',
           'super-map-block',
           array( $this, 'options_page_html' ),

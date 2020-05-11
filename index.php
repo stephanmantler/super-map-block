@@ -8,7 +8,7 @@
  * Author: Stephan Mantler
  * Author URI: https://www.stepman.is/
  * License: GPL-3.0-or-later
- * Text Domain: stepman-super-map-block
+ * Text Domain: super-map-block
  */
  
  if ( ! defined( 'ABSPATH' ) ) {

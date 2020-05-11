@@ -2,6 +2,7 @@
 
 import 'jquery';
 
+import { __ } from '@wordpress/i18n';
 import { MapSidebar } from './blocks/editor-sidebar';
 
 MapSidebar.register( window.stepmanMapboxAccessToken );
