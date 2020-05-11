@@ -1,0 +1,124 @@
+# Copyright (C) 2020 Stephan Mantler
+# This file is distributed under the same license as the Super Map Block plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Super Map Block 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/super-map-block\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2020-05-11T20:58:41+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.4.0\n"
+"X-Domain: super-map-block\n"
+
+#. Plugin Name of the plugin
+#: includes/super-map-block.php:299
+#: build/backend.js:23615
+#: src/blocks/map/index.js:32
+msgid "Super Map Block"
+msgstr ""
+
+#. Description of the plugin
+msgid "Provides flexible maps and universal geolocation support for posts and pages"
+msgstr ""
+
+#. Author of the plugin
+msgid "Stephan Mantler"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://www.stepman.is/"
+msgstr ""
+
+#: includes/super-map-block.php:256
+msgid "Mapbox Integration"
+msgstr ""
+
+#: includes/super-map-block.php:258
+msgid "Access Token"
+msgstr ""
+
+#. translators: %s will be the URL for the Mapbox access token howto.
+#: includes/super-map-block.php:269
+msgid "Super Map Block can show OpenStreetMap, OpenTopoMap and Mapbox tiles. To use Mapbox, you will need to request a <a href=\"%s\">Mapbox access token</a> and enter it below."
+msgstr ""
+
+#: includes/super-map-block.php:284
+msgid "paste your access token here"
+msgstr ""
+
+#: includes/super-map-block.php:284
+msgid "(not set)"
+msgstr ""
+
+#: includes/super-map-block.php:298
+msgid "Super Map Block global plugin settings"
+msgstr ""
+
+#: build/backend.js:23527
+#: src/blocks/editor-sidebar.js:22
+msgid "Location data (for debugging)"
+msgstr ""
+
+#: build/backend.js:23561
+#: src/blocks/editor-sidebar.js:63
+msgid "Geolocation"
+msgstr ""
+
+#: build/backend.js:23616
+#: src/blocks/map/index.js:33
+msgid "Embed a leaflet map element"
+msgstr ""
+
+#: build/backend.js:23757
+#: src/blocks/map/index.js:154
+msgid "Map Settings"
+msgstr ""
+
+#: build/backend.js:23759
+#: src/blocks/map/index.js:157
+msgid "Width"
+msgstr ""
+
+#: build/backend.js:23763
+#: src/blocks/map/index.js:164
+msgid "Height"
+msgstr ""
+
+#: build/backend.js:23767
+#: src/blocks/map/index.js:171
+msgid "allow pan & zoom"
+msgstr ""
+
+#: build/backend.js:23771
+#: src/blocks/map/index.js:177
+msgid "Data / Overlays"
+msgstr ""
+
+#: build/backend.js:23774
+#: src/blocks/map/index.js:180
+msgid "show post annotation shapes"
+msgstr ""
+
+#: build/backend.js:23778
+#: src/blocks/map/index.js:187
+msgid "Base Map"
+msgstr ""
+
+#: build/backend.js:23795
+#: src/blocks/map/index.js:200
+msgid "Custom Overlay Layer"
+msgstr ""
+
+#: build/backend.js:23799
+#: src/blocks/map/index.js:207
+msgid "Custom Attribution"
+msgstr ""
+
+#: build/backend.js:23811
+#: src/blocks/map/index.js:222
+msgid "Attach GeoJSON"
+msgstr ""
