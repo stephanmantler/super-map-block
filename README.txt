@@ -45,6 +45,8 @@ Install plugin as usual. To use Mapbox instead of OpenStreetMap or OpenTopoMap, 
 
 == Screenshots ==
 
+1. Embedding the map block
+1. Page / post geolocation
 
 == Frequently Asked Questions ==
 
