@@ -10,6 +10,7 @@ module.exports = {
 	...defaultConfig,
 	entry: {
 		backend: path.resolve( process.cwd(), 'src', 'backend.js' ),
+		'plugin-settings': path.resolve( process.cwd(), 'src', 'plugin-settings.js' ),
 		frontend: path.resolve( process.cwd(), 'src', 'frontend.js' ),
 		style: path.resolve( process.cwd(), 'src', 'style.scss' ),
 		admin: path.resolve( process.cwd(), 'src', 'admin.scss' ),
