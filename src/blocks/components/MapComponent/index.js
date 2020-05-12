@@ -91,10 +91,10 @@ class MapComponentBase extends Component {
 			</div>
 		);
 	}
-	
+
 	componentDidUpdate( oldProps ) {
 		// sync map with attribute changes
-		if ( 
+		if (
 			oldProps.mapStyle !== this.props.mapStyle ||
 			oldProps.allowEdit !== this.props.allowEdit ||
 			oldProps.layers !== this.props.layers ||
@@ -121,9 +121,9 @@ class MapComponentBase extends Component {
 			this.updatePosition( e.target );
 		} );
 
-    this.refreshEditLayers( this.map );
+		this.refreshEditLayers( this.map );
 	}
-	
+
 	refreshEditLayers( map ) {
 		const itemsGroup = parseGeoJSON( this.props.layers );
 		itemsGroup.addTo( map );
