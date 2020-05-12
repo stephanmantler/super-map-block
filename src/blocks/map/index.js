@@ -30,14 +30,7 @@ export const name = 'stepman/super-map-block';
 
 export const settings = {
 	title: __('Super Map Block', 'super-map-block'),
-	description: __('Embed a leaflet map element', 'super-map-block'),
-//	icon: 'admin-site-alt3',
-/*<!-- <style>
-	.st0 { fill: none; stroke:#000000;stroke-width:0.9377;stroke-miterlimit:10;}
-	.st1 { fill: none; stroke:#000000;stroke-width:3;stroke-miterlimit:10;}
-	.st2 { fill:#ACF5F9;}
-	.st3 { fill:#FFFFFF;stroke:#000000;stroke-width:4;stroke-miterlimit:10;}
-</style> --> */
+	description: __('Flexible map display', 'super-map-block'),
 	icon: { src: ( <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
 	 viewBox="0 0 256 256">
 <g id="Layer_1_1_">
@@ -65,7 +58,7 @@ export const settings = {
 </g>
 <g id="Layer_2_1_">
 	<g>
-		<polygon fill="#ACF5D9" stroke="#000" strokeWidth="1.65" points="16.8,92.3 41.6,55 213.5,55 238.4,92.3 127.6,203.1 		"/>
+		<polygon fill="#BA573C" stroke="#000" strokeWidth="1.65" points="16.8,92.3 41.6,55 213.5,55 238.4,92.3 127.6,203.1 		"/>
 		<path stroke="#000" strokeWidth="3" d="M210,61.7l19.8,29.8L127.4,193.8L25,91.4l19.8-29.8h82.4H210 M217.1,48.4h-89.5H37.9L8.2,93.2l119.4,119.4L247,93.2
 			L217.1,48.4L217.1,48.4z"/>
 	</g>
@@ -77,7 +70,6 @@ export const settings = {
 	</g>
 </g>
 </svg> )
-		
 	},
 	category: 'embed',
 	example: {},
@@ -196,6 +188,17 @@ export const settings = {
 			props.setAttributes( { customOverlayAttribution: newValue } );
 		};
 
+		let mapOptions = [
+			{ label: 'OpenStreetMap', value: 'OpenStreetMap' },
+			{ label: 'OpenTopoMap', value: 'OpenTopoMap' },
+		];
+		// only include MapBox if we have an access token
+		if ( window.stepmanMapboxAccessToken !== undefined && window.stepmanMapboxAccessToken.length > 0 ) {
+			mapOptions.push ( { label: 'MapBox', value: 'MapBox' } );
+		}
+		// ... and add 'None' as the last option
+		mapOptions.push ( { label: 'None', value: 'None' } );
+
 		const controls = [
 			<InspectorControls key="stepman_map_controls">
 				<PanelBody title={ __("Map Settings", 'super-map-block') } >
@@ -234,12 +237,7 @@ export const settings = {
 							label={ __("Base Map", 'super-map-block') }
 							value={ mapStyle }
 							onChange={ onChangeMapStyle }
-							options={ [
-								{ label: 'OpenStreetMap', value: 'OpenStreetMap' },
-								{ label: 'OpenTopoMap', value: 'OpenTopoMap' },
-								{ label: 'MapBox', value: 'MapBox' },
-								{ label: 'None', value: 'None' },
-							]	}
+							options={ mapOptions }
 						/>
 					</PanelRow>
 					<PanelRow>
