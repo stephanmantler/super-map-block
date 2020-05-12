@@ -70,7 +70,7 @@ msgstr ""
 
 #: build/backend.js:23616
 #: src/blocks/map/index.js:33
-msgid "Embed a leaflet map element"
+msgid "Flexible map display"
 msgstr ""
 
 #: build/backend.js:23757

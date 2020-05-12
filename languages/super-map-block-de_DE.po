@@ -74,8 +74,8 @@ msgid "Geolocation"
 msgstr "Verortung"
 
 #: build/backend.js:23616 src/blocks/map/index.js:33
-msgid "Embed a leaflet map element"
-msgstr "Kartenelement einbetten"
+msgid "Flexible map display"
+msgstr "Flexibles Kartenelement"
 
 #: build/backend.js:23757 src/blocks/map/index.js:154
 msgid "Map Settings"
