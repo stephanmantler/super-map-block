@@ -20,7 +20,7 @@
   "author": "step",
   "license": "GPL-3.0-or-later",
   "devDependencies": {
-    "@wordpress/scripts": "7.2.0",
+    "@wordpress/scripts": "24.6.0",
     "css-loader": "^3.5.2",
     "eslint-plugin-react-hooks": "^3.0.0",
     "file-loader": "^6.0.0",
