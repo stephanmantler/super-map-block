@@ -20,8 +20,8 @@ import {
 } from './blocks/components/MapComponent/MapController.js';
 
 jQuery( document ).ready(
-	( function() {
-		jQuery( '.stepman_geo_location_map' ).each( function( index, elem ) {
+	( function () {
+		jQuery( '.stepman_geo_location_map' ).each( function ( index, elem ) {
 			const allowInteraction =
 				elem.getAttribute( 'data-interactive' ) === 'true';
 

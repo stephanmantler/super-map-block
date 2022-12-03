@@ -19,7 +19,10 @@ let PluginMetaFields = ( props ) => {
 					onChange={ ( value ) => props.setMetaFieldValue( value ) }
 				/>
 				<TextControl
-					label={ __("Location data (for debugging)", 'super-map-block') }
+					label={ __(
+						'Location data (for debugging)',
+						'super-map-block'
+					) }
 					value={ props.metaFieldValue }
 					onChange={ ( value ) => props.setMetaFieldValue( value ) }
 				/>
@@ -30,8 +33,9 @@ let PluginMetaFields = ( props ) => {
 
 PluginMetaFields = withSelect( ( select ) => {
 	return {
-		metaFieldValue: select( 'core/editor' ).getEditedPostAttribute( 'meta' )
-			.stepman_meta_geolocation,
+		metaFieldValue:
+			select( 'core/editor' ).getEditedPostAttribute( 'meta' )
+				.stepman_meta_geolocation,
 	};
 } )( PluginMetaFields );
 
@@ -60,7 +64,7 @@ const MapSidebar = {
 						<PluginSidebar
 							name="stepman-geo-location"
 							icon="admin-site-alt3"
-							title={ __("Geolocation", 'super-map-block') }
+							title={ __( 'Geolocation', 'super-map-block' ) }
 						>
 							<PluginMetaFields accessToken={ accessToken } />
 						</PluginSidebar>

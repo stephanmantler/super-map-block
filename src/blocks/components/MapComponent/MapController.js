@@ -55,8 +55,8 @@ function convertGeoJSON( meta ) {
 
 export function updateMap( map, elem ) {
 	// clean out all layers
-	map.eachLayer( l => l.remove() );
-	rebuildMap ( map, elem );
+	map.eachLayer( ( l ) => l.remove() );
+	rebuildMap( map, elem );
 }
 
 export function parseGeoJSON( data ) {
@@ -73,17 +73,15 @@ export function parseGeoJSON( data ) {
 }
 
 export function hookMap( elem, mapConfig ) {
-
 	const map = L.map( elem, mapConfig ).setView( [ 51.505, -0.09 ], 13 );
 
 	L.control.attribution( { position: 'bottomright' } ).addTo( map );
-	
+
 	rebuildMap( map, elem );
 	return map;
 }
 
 function rebuildMap( map, elem ) {
-
 	const extraLayers = jQuery( elem )
 		.find( '.data-layer' )
 		.map( ( index, div ) => div.getAttribute( 'data-geojson-url' ) );
@@ -91,8 +89,12 @@ function rebuildMap( map, elem ) {
 	const mapStyle = elem.getAttribute( 'data-mapstyle' );
 
 	const accessToken = elem.getAttribute( 'data-token' );
-	
-	if ( mapStyle === 'MapBox' && accessToken !== null && accessToken.length > 0 ) {
+
+	if (
+		mapStyle === 'MapBox' &&
+		accessToken !== null &&
+		accessToken.length > 0
+	) {
 		L.tileLayer(
 			'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
 			{
@@ -117,15 +119,17 @@ function rebuildMap( map, elem ) {
 				'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
 		} ).addTo( map );
 	}
-	
+
 	const customLayer = elem.getAttribute( 'data-overlay' );
-	const customlayerAttribution = elem.getAttribute( 'data-overlay-attribution' );
-	
+	const customlayerAttribution = elem.getAttribute(
+		'data-overlay-attribution'
+	);
+
 	if ( customLayer && customlayerAttribution && customLayer.length > 0 ) {
-		L.tileLayer(
-			customLayer, { attribution: customlayerAttribution }
-		).addTo( map );
-	} 
+		L.tileLayer( customLayer, {
+			attribution: customlayerAttribution,
+		} ).addTo( map );
+	}
 
 	extraLayers.each( ( index, layer ) => {
 		jQuery.getJSON( layer, ( data ) => {
@@ -143,5 +147,4 @@ function rebuildMap( map, elem ) {
 	} else {
 		map.setView( [ 64.65, -17.8 ], 5 );
 	}
-
 }

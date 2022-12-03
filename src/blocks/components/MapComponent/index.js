@@ -25,7 +25,7 @@ class MapComponentBase extends Component {
 		this.props = props;
 		const self = this;
 
-		this.bindContainer = function( container ) {
+		this.bindContainer = function ( container ) {
 			self.container = container;
 		};
 	}
@@ -64,15 +64,15 @@ class MapComponentBase extends Component {
 				></div>
 			) );
 		}
-		let mapStyle = this.props.mapStyle
-		let accessToken = this.props.accessToken || null
+		let mapStyle = this.props.mapStyle;
+		const accessToken = this.props.accessToken || null;
 		// sanity check map style against access token.
 		if ( mapStyle === 'MapBox' ) {
 			if ( ! accessToken || accessToken.length == 0 ) {
-				mapStyle = "OpenStreetMap"
+				mapStyle = 'OpenStreetMap';
 			}
 		} else {
-//			accessToken = null
+			//			accessToken = null
 		}
 		return (
 			<div
@@ -99,9 +99,10 @@ class MapComponentBase extends Component {
 			oldProps.allowEdit !== this.props.allowEdit ||
 			oldProps.layers !== this.props.layers ||
 			oldProps.customOverlay !== this.props.customOverlay ||
-			oldProps.customOverlayAttribution !== this.props.customOverlayAttribution
+			oldProps.customOverlayAttribution !==
+				this.props.customOverlayAttribution
 		) {
-			updateMap( this.map, this.container )
+			updateMap( this.map, this.container );
 			this.refreshEditLayers( this.map );
 		}
 	}
@@ -148,10 +149,10 @@ class MapComponentBase extends Component {
 
 			const self = this;
 
-			const saveLayers = function() {
+			const saveLayers = function () {
 				const out = { type: 'FeatureCollection', features: [] };
 
-				itemsGroup.eachLayer( function( l ) {
+				itemsGroup.eachLayer( function ( l ) {
 					const json = l.toGeoJSON();
 
 					if ( l instanceof L.Circle ) {
@@ -162,17 +163,17 @@ class MapComponentBase extends Component {
 				self.props.onChange( JSON.stringify( out ) );
 			};
 
-			map.on( L.Draw.Event.CREATED, function( event ) {
+			map.on( L.Draw.Event.CREATED, function ( event ) {
 				const layer = event.layer;
 				itemsGroup.addLayer( layer );
 				saveLayers();
 			} );
-			map.on( L.Draw.Event.EDITED, function() {
+			map.on( L.Draw.Event.EDITED, function () {
 				saveLayers();
 			} );
-			map.on( L.Draw.Event.DELETED, function( event ) {
+			map.on( L.Draw.Event.DELETED, function ( event ) {
 				const layers = event.layers;
-				layers.eachLayer( function( layer ) {
+				layers.eachLayer( function ( layer ) {
 					itemsGroup.removeLayer( layer );
 				} );
 				saveLayers();

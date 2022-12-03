@@ -11,7 +11,7 @@ import { registerBlockType } from '@wordpress/blocks';
 
 import * as map from './blocks/map';
 
-jQuery( document ).ready( function() {
+jQuery( document ).ready( function () {
 	const blocks = [ map ];
 
 	function registerBlock( block ) {

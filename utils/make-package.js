@@ -10,15 +10,17 @@
 
 'use strict';
 
-const fs = require('fs');
-const tar = require('tar');
+const fs = require( 'fs' );
+const tar = require( 'tar' );
 
-const output = 'super-map-block-'+process.env.npm_package_version+'.tgz';
+const output = 'super-map-block-' + process.env.npm_package_version + '.tgz';
 
 if ( fs.existsSync( output ) ) {
 	// will not clobber existing files.
-	console.error( "Package file " + output + " exists. Delete or rename first." );
-	process.exit(-1);
+	console.error(
+		'Package file ' + output + ' exists. Delete or rename first.'
+	);
+	process.exit( -1 );
 }
 
 const ignore_re = [ /.po$/, /~$/ ];
@@ -28,7 +30,24 @@ tar.c(
 		gzip: true,
 		file: output,
 		prefix: 'super-map-block',
-		filter: (path, stat) => { for ( const re of ignore_re ) { if ( re.test(path) ) { return false; } }; return true; },
+		filter: ( path, stat ) => {
+			for ( const re of ignore_re ) {
+				if ( re.test( path ) ) {
+					return false;
+				}
+			}
+			return true;
+		},
 	},
-	['index.php','build/','LICENSE','README.txt', 'includes/','assets/','languages/' ]
-).then( _ => { console.log( "Created package at " + output + " ." ) } );
+	[
+		'index.php',
+		'build/',
+		'LICENSE',
+		'README.txt',
+		'includes/',
+		'assets/',
+		'languages/',
+	]
+).then( ( _ ) => {
+	console.log( 'Created package at ' + output + ' .' );
+} );
