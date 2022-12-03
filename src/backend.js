@@ -1,3 +1,4 @@
+/* eslint-env jquery */
 'use strict';
 
 import 'jquery';
