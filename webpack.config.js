@@ -56,7 +56,7 @@ module.exports = {
 			},
 			{
 				test: /\.(sc|sa|c)ss$/,
-				/*				exclude: /node_modules/, */
+				exclude: /node_modules/,
 				use: [
 					{
 						loader: MiniCssExtractPlugin.loader,
@@ -70,21 +70,23 @@ module.exports = {
 					{
 						loader: 'postcss-loader',
 						options: {
-							ident: 'postcss',
-							plugins: () => [
-								postcssPresetEnv( {
-									stage: 3,
-									features: {
-										'custom-media-queries': {
-											preserve: false,
+							postcssOptions: {
+								parser: "postcss-scss",
+								plugins: () => [
+									postcssPresetEnv( {
+										stage: 3,
+										features: {
+											'custom-media-queries': {
+												preserve: false,
+											},
+											'custom-properties': {
+												preserve: true,
+											},
+											'nesting-rules': true,
 										},
-										'custom-properties': {
-											preserve: true,
-										},
-										'nesting-rules': true,
-									},
-								} ),
-							],
+									} ),
+								],
+							},
 						},
 					},
 					{
